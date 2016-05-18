@@ -108,3 +108,8 @@ assetic:
                 - %kernel.root_dir%/../vendor/twitter/bootstrap/js/tab.js
                 - %kernel.root_dir%/../vendor/twitter/bootstrap/js/affix.js
             output: js/bootstrap.js
+# FOS User bundle
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: main
+    user_class: AppBundle\Entity\User

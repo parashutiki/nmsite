@@ -24,7 +24,8 @@
         "symfony/assetic-bundle": "2.8.*",
         "leafo/lessphp": "*",
         "twitter/bootstrap": "3.3.*",
-        "components/jquery": "1.9.*"
+        "components/jquery": "1.9.*",
+        "friendsofsymfony/user-bundle": "1.*"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",
