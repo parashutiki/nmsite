@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use AppBundle\Entity\Advert;
 use AppBundle\Form\Type\AdvertType;
 
@@ -16,11 +17,15 @@ use AppBundle\Form\Type\AdvertType;
  */
 class AdvertController extends Controller
 {
+
     /**
      * Lists all Advert entities.
      *
      * @Route("/", name="advert_index")
+     *
      * @Method("GET")
+     *
+     * @Security("has_role('ROLE_ADVERT_VIEW')")
      */
     public function indexAction()
     {
@@ -29,7 +34,7 @@ class AdvertController extends Controller
         $adverts = $em->getRepository('AppBundle:Advert')->findAll();
 
         return $this->render('advert/index.html.twig', array(
-            'adverts' => $adverts,
+                    'adverts' => $adverts,
         ));
     }
 
@@ -54,8 +59,8 @@ class AdvertController extends Controller
         }
 
         return $this->render('advert/new.html.twig', array(
-            'advert' => $advert,
-            'form' => $form->createView(),
+                    'advert' => $advert,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -70,8 +75,8 @@ class AdvertController extends Controller
         $deleteForm = $this->createDeleteForm($advert);
 
         return $this->render('advert/show.html.twig', array(
-            'advert' => $advert,
-            'delete_form' => $deleteForm->createView(),
+                    'advert' => $advert,
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -96,9 +101,9 @@ class AdvertController extends Controller
         }
 
         return $this->render('advert/edit.html.twig', array(
-            'advert' => $advert,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'advert' => $advert,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -132,9 +137,10 @@ class AdvertController extends Controller
     private function createDeleteForm(Advert $advert)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('advert_delete', array('id' => $advert->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
+                        ->setAction($this->generateUrl('advert_delete', array('id' => $advert->getId())))
+                        ->setMethod('DELETE')
+                        ->getForm()
         ;
     }
+
 }
