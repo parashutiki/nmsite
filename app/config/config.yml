@@ -76,6 +76,10 @@ assetic:
             node: /usr/bin/nodejs
             node_paths: [%kernel.root_dir%/../node_modules]
     assets:
+        main_css:
+            inputs:
+                - %kernel.root_dir%/../app/Resources/public/less/main.less
+            output: css/main.css
         jquery_js:
             inputs:
                 - %kernel.root_dir%/../vendor/components/jquery/jquery.min.js

@@ -24,8 +24,7 @@ class AdvertController extends Controller
      * @Route("/", name="advert_index")
      *
      * @Method("GET")
-     *
-     * @Security("has_role('ROLE_ADVERT_VIEW')")
+     * @Security("has_role('ROLE_ADVERT_INDEX')")
      */
     public function indexAction()
     {
@@ -43,6 +42,7 @@ class AdvertController extends Controller
      *
      * @Route("/new", name="advert_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_ADVERT_NEW')")
      */
     public function newAction(Request $request)
     {
@@ -69,6 +69,7 @@ class AdvertController extends Controller
      *
      * @Route("/{id}", name="advert_show")
      * @Method("GET")
+     * @Security("has_role('ROLE_ADVERT_SHOW')")
      */
     public function showAction(Advert $advert)
     {
@@ -85,6 +86,7 @@ class AdvertController extends Controller
      *
      * @Route("/{id}/edit", name="advert_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_ADVERT_EDIT')")
      */
     public function editAction(Request $request, Advert $advert)
     {
@@ -112,6 +114,7 @@ class AdvertController extends Controller
      *
      * @Route("/{id}", name="advert_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_ADVERT_DELETE')")
      */
     public function deleteAction(Request $request, Advert $advert)
     {

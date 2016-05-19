@@ -1,43 +1,45 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Advert list</h1>
+    <div class="container">
+        <h1>Advert list</h1>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Description</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for advert in adverts %}
-            <tr>
-                <td><a href="{{ path('advert_show', { 'id': advert.id }) }}">{{ advert.id }}</a></td>
-                <td>{{ advert.name }}</td>
-                <td>{{ advert.price }}</td>
-                <td>{{ advert.description }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('advert_show', { 'id': advert.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('advert_edit', { 'id': advert.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for advert in adverts %}
+                    <tr>
+                        <td><a href="{{ path('advert_show', { 'id': advert.id }) }}">{{ advert.id }}</a></td>
+                        <td>{{ advert.name }}</td>
+                        <td>{{ advert.price }}</td>
+                        <td>{{ advert.description }}</td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <a href="{{ path('advert_show', { 'id': advert.id }) }}">show</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('advert_edit', { 'id': advert.id }) }}">edit</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('advert_new') }}">Create a new entry</a>
-        </li>
-    </ul>
+        <ul>
+            <li>
+                <a href="{{ path('advert_new') }}">Create a new entry</a>
+            </li>
+        </ul>
+    </div>
 {% endblock %}
