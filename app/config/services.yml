@@ -18,3 +18,10 @@ services:
         tags:
             - { name: knp_menu.menu, alias: main }
 
+    app.user_menu:
+        class: Knp\Menu\MenuItem
+        factory: ["@app.menu_builder", createUserMenu]
+        scope: request
+        tags:
+            - { name: knp_menu.menu, alias: user }
+

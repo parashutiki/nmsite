@@ -21,20 +21,30 @@ class MenuBuilder
 
     public function createMainMenu()
     {
-
         $menu = $this->factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav navbar-nav');
-
-        $menu->addChild('Home', array('route' => 'homepage'));
-
+        $menu->addChild('menu.main.home', array('route' => 'homepage'))
+                ->setExtra('translation_domain', 'menu');
         if ($this->securityContext->isGranted('ROLE_ADMIN')) {
-            $menu->addChild('Advert', array('route' => 'advert_index'));
+            $menu->addChild('menu.main.advert_list', array('route' => 'advert_index'))
+                    ->setExtra('translation_domain', 'menu');
+            $menu->addChild('menu.main.user_list', array('route' => 'user_index'))
+                    ->setExtra('translation_domain', 'menu');
         }
 
+        return $menu;
+    }
+
+    public function createUserMenu()
+    {
+        $menu = $this->factory->createItem('root');
+        $menu->setChildrenAttribute('class', 'nav navbar-nav navbar-right');
         if ($this->securityContext->isGranted('ROLE_PROFILE_VIEW')) {
-            $menu->addChild('Profile', array('route' => 'fos_user_profile_show'));
+            $menu->addChild('menu.user.profile', array('route' => 'fos_user_profile_show'))
+                    ->setExtra('translation_domain', 'menu');
         } else {
-            $menu->addChild('Sign in', array('route' => 'fos_user_security_login'));
+            $menu->addChild('menu.user.login', array('route' => 'fos_user_security_login'))
+                    ->setExtra('translation_domain', 'menu');
         }
 
         return $menu;

@@ -1,0 +1,8 @@
+menu:
+    main:
+        home: Home
+        advert_list: Adverts
+        user_list: Users
+    user:
+        login: Login
+        profile: Profile
