@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use AppBundle\Entity\User;
 use AppBundle\Form\Type\UserType;
 
@@ -16,21 +17,24 @@ use AppBundle\Form\Type\UserType;
  */
 class UserController extends Controller
 {
+
     /**
      * Lists all User entities.
      *
      * @Route("/", name="user_index")
      * @Method("GET")
+     * @Security("has_role('ROLE_USER_INDEX')")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
         $users = $em->getRepository('AppBundle:User')->findAll();
 
-        return $this->render('user/index.html.twig', array(
-            'users' => $users,
-        ));
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($users, $request->query->getInt('page', 1), 6);
+
+        return $this->render('user/index.html.twig', array('pagination' => $pagination));
     }
 
     /**
@@ -38,6 +42,7 @@ class UserController extends Controller
      *
      * @Route("/new", name="user_new")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_USER_NEW')")
      */
     public function newAction(Request $request)
     {
@@ -54,8 +59,8 @@ class UserController extends Controller
         }
 
         return $this->render('user/new.html.twig', array(
-            'user' => $user,
-            'form' => $form->createView(),
+                    'user' => $user,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -64,14 +69,15 @@ class UserController extends Controller
      *
      * @Route("/{id}", name="user_show")
      * @Method("GET")
+     * @Security("has_role('ROLE_USER_SHOW')")
      */
     public function showAction(User $user)
     {
         $deleteForm = $this->createDeleteForm($user);
 
         return $this->render('user/show.html.twig', array(
-            'user' => $user,
-            'delete_form' => $deleteForm->createView(),
+                    'user' => $user,
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -80,6 +86,7 @@ class UserController extends Controller
      *
      * @Route("/{id}/edit", name="user_edit")
      * @Method({"GET", "POST"})
+     * @Security("has_role('ROLE_USER_EDIT')")
      */
     public function editAction(Request $request, User $user)
     {
@@ -96,9 +103,9 @@ class UserController extends Controller
         }
 
         return $this->render('user/edit.html.twig', array(
-            'user' => $user,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+                    'user' => $user,
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -107,6 +114,7 @@ class UserController extends Controller
      *
      * @Route("/{id}", name="user_delete")
      * @Method("DELETE")
+     * @Security("has_role('ROLE_USER_DELETE')")
      */
     public function deleteAction(Request $request, User $user)
     {
@@ -132,9 +140,10 @@ class UserController extends Controller
     private function createDeleteForm(User $user)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('user_delete', array('id' => $user->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
+                        ->setAction($this->generateUrl('user_delete', array('id' => $user->getId())))
+                        ->setMethod('DELETE')
+                        ->getForm()
         ;
     }
+
 }

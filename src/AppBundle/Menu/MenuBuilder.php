@@ -25,9 +25,11 @@ class MenuBuilder
         $menu->setChildrenAttribute('class', 'nav navbar-nav');
         $menu->addChild('menu.main.home', array('route' => 'homepage'))
                 ->setExtra('translation_domain', 'menu');
-        if ($this->securityContext->isGranted('ROLE_ADMIN')) {
+        if ($this->securityContext->isGranted('ROLE_ADVERT_INDEX')) {
             $menu->addChild('menu.main.advert_list', array('route' => 'advert_index'))
                     ->setExtra('translation_domain', 'menu');
+        }
+        if ($this->securityContext->isGranted('ROLE_USER_INDEX')) {
             $menu->addChild('menu.main.user_list', array('route' => 'user_index'))
                     ->setExtra('translation_domain', 'menu');
         }
