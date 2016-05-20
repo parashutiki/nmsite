@@ -1,8 +1,12 @@
 menu:
     main:
         home: Home
-        advert_list: Adverts
-        user_list: Users
+        advert:
+            new: Add advert
+            list: Advert list
+        user:
+            list: User list
     user:
         login: Login
+        logout: Logout
         profile: Profile

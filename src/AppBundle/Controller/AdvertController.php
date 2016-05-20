@@ -43,7 +43,6 @@ class AdvertController extends Controller
      *
      * @Route("/new", name="advert_new")
      * @Method({"GET", "POST"})
-     * @Security("has_role('ROLE_ADVERT_NEW')")
      */
     public function newAction(Request $request)
     {
