@@ -61,6 +61,12 @@ class MenuBuilder
                         'dropdown' => true,
                         'icon' => 'glyphicon glyphicon-user',
                     ))
+                    ->addChild('menu.user.edit', array('route' => 'fos_user_profile_edit'))
+                    ->setAttributes(array(
+                        'icon' => 'glyphicon glyphicon-edit',
+                    ))
+                    ->setExtra('translation_domain', 'menu')
+                    ->getParent()
                     ->addChild('menu.user.logout', array('route' => 'fos_user_security_logout'))
                     ->setAttributes(array(
                         'icon' => 'glyphicon glyphicon-log-out',
