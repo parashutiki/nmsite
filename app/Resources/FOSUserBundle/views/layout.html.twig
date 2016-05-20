@@ -2,13 +2,7 @@
 
 {% block body %}
     <div class="container">
-        <h1>
-            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
-            {% else %}
-                {{ 'layout.login'|trans({}, 'FOSUserBundle') }}
-            {% endif %}
-        </h1>
+        <h1>{{ block('title') }}</h1>
         <div>
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |

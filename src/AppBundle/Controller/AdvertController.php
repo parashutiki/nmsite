@@ -26,15 +26,16 @@ class AdvertController extends Controller
      * @Method("GET")
      * @Security("has_role('ROLE_ADVERT_INDEX')")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
         $adverts = $em->getRepository('AppBundle:Advert')->findAll();
 
-        return $this->render('advert/index.html.twig', array(
-                    'adverts' => $adverts,
-        ));
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($adverts, $request->query->getInt('page', 1), 6);
+
+        return $this->render('advert/index.html.twig', array('pagination' => $pagination));
     }
 
     /**

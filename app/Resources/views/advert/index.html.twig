@@ -2,44 +2,31 @@
 
 {% block body %}
     <div class="container">
-        <h1>Advert list</h1>
+        <h1>Advert list <span class="badge">{{ pagination.getTotalItemCount }}</span></h1>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Description</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for advert in adverts %}
-                    <tr>
-                        <td><a href="{{ path('advert_show', { 'id': advert.id }) }}">{{ advert.id }}</a></td>
-                        <td>{{ advert.name }}</td>
-                        <td>{{ advert.price }}</td>
-                        <td>{{ advert.description }}</td>
-                        <td>
-                            <ul>
-                                <li>
-                                    <a href="{{ path('advert_show', { 'id': advert.id }) }}">show</a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('advert_edit', { 'id': advert.id }) }}">edit</a>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="row">
+            {# adverts list #}
+            {% for advert in pagination %}
+                <div class="col-sm-6 col-md-4">
+                    <div class="thumbnail">
+                        <div class="caption">
+                            <h3>{{ advert.name }}</h3>
+                            <p>Price: {{ advert.price }}</p>
+                            <p>Description: {{ advert.description }}</p>
+                            <p>
+                                <a href="{{ path("advert_edit", { 'id': advert.id }) }}" class="btn btn-success" role="button">Edit</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
 
-        <ul>
-            <li>
-                <a href="{{ path('advert_new') }}">Create a new entry</a>
-            </li>
-        </ul>
+            {# display navigation #}
+            <div class="col-lg-12">
+                <div class="navigation pull-right">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
