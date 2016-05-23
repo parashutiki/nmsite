@@ -35,7 +35,7 @@ framework:
 
 # Twig Configuration
 twig:
-    debug:            "%kernel.debug%"
+    debug: "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     form:
         resources: ['bootstrap_3_layout.html.twig']
@@ -83,6 +83,8 @@ assetic:
         main_css:
             inputs:
                 - %kernel.root_dir%/../app/Resources/public/less/main.less
+            filters:
+                - less
             output: css/main.css
         jquery_js:
             inputs:
@@ -136,6 +138,16 @@ assetic:
             inputs:
                 - '%kernel.root_dir%/../vendor/twitter/bootstrap/fonts/glyphicons-halflings-regular.eot'
             output: fonts/glyphicons-halflings-regular.eot
+        fine_uploader_js:
+            inputs:
+                - %kernel.root_dir%/../vendor/FineUploader/fine-uploader/fine-uploader.js
+            output: js/fine-uploader.js
+        fine_uploader_css:
+            inputs:
+                - %kernel.root_dir%/../vendor/FineUploader/fine-uploader/fine-uploader.min.css
+            filters:
+                - cssrewrite
+            output: css/fine-uploader.min.css
 # FOS User bundle
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
@@ -160,3 +172,9 @@ knp_paginator:
     template:
         pagination: KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig
         sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig
+
+oneup_uploader:
+    mappings:
+        advert:
+            frontend: fineuploader
+    twig: true

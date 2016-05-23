@@ -4,8 +4,11 @@
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
-            <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" type="text/css" media="all"/>
-            <link href="{{ asset('css/main.css') }}" rel="stylesheet" type="text/css" media="all"/>
+            {% stylesheets '@bootstrap_css'
+                '@main_css'
+            %}
+            <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all"/>
+            {% endstylesheets %}
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
@@ -41,8 +44,11 @@
         {% block body %}
         {% endblock %}
         {% block javascripts %}
-            <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
-            <script type="text/javascript" src="{{ asset('js/bootstrap.js') }}"></script>
+            {% javascripts '@jquery_js'
+               '@bootstrap_js'
+            %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
         {% endblock %}
     </body>
 </html>

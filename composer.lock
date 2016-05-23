@@ -4,9 +4,31 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0e9a38025f4545310d07bdae4e5963fb",
-    "content-hash": "3fd640d16621a61723ccc8b2d50cc7be",
+    "hash": "26835cb8362d28e585a825df8bfb4bf0",
+    "content-hash": "519016a5a7b8d82cc8dc853da8c0a01c",
     "packages": [
+        {
+            "name": "FineUploader/fine-uploader",
+            "version": "5.9.0",
+            "dist": {
+                "type": "zip",
+                "url": "http://releases.fineuploader.com/5.9.0/fine-uploader-5.9.0.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library"
+        },
+        {
+            "name": "Logicify/jquery-locationpicker-plugin",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Logicify/jquery-locationpicker-plugin",
+                "reference": "origin/master"
+            },
+            "type": "library",
+            "time": "2016-03-11 17:09:14"
+        },
         {
             "name": "components/jquery",
             "version": "1.9.1",
@@ -1480,6 +1502,75 @@
             "time": "2016-04-12 18:29:35"
         },
         {
+            "name": "oneup/uploader-bundle",
+            "version": "1.6.0",
+            "target-dir": "Oneup/UploaderBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/1up-lab/OneupUploaderBundle.git",
+                "reference": "70fdfdbdf72642d382ce62d966d2079cc3a39061"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/1up-lab/OneupUploaderBundle/zipball/70fdfdbdf72642d382ce62d966d2079cc3a39061",
+                "reference": "70fdfdbdf72642d382ce62d966d2079cc3a39061",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4",
+                "symfony/finder": "^2.4.0|~3.0",
+                "symfony/framework-bundle": "^2.4.0|~3.0"
+            },
+            "require-dev": {
+                "amazonwebservices/aws-sdk-for-php": "1.5.*",
+                "knplabs/gaufrette": "0.2.*@dev",
+                "oneup/flysystem-bundle": "^1.2",
+                "phpunit/phpunit": "~4.4",
+                "sensio/framework-extra-bundle": "2.*|~3.0",
+                "symfony/browser-kit": "2.*|~3.0",
+                "symfony/class-loader": "2.*|~3.0",
+                "symfony/security-bundle": "2.*|~3.0"
+            },
+            "suggest": {
+                "knplabs/knp-gaufrette-bundle": "0.1.*",
+                "oneup/flysystem-bundle": "^1.2"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Oneup\\UploaderBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jim Schmid",
+                    "email": "js@1up.io",
+                    "homepage": "http://1up.io",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Handles multi file uploads in Symfony2. Features included: Chunked upload, Orphans management, Gaufrette support.",
+            "homepage": "http://1up.io",
+            "keywords": [
+                "FancyUpload",
+                "FineUploader",
+                "MooUpload",
+                "Uploadify",
+                "YUI3 Uploader",
+                "blueimp",
+                "dropzone",
+                "fileupload",
+                "jQuery File Uploader",
+                "plupload",
+                "upload"
+            ],
+            "time": "2016-05-04 09:09:49"
+        },
+        {
             "name": "paragonie/random_compat",
             "version": "v2.0.2",
             "source": {
@@ -2881,7 +2972,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "logicify/jquery-locationpicker-plugin": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

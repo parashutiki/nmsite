@@ -2,6 +2,31 @@
     "name": "root/symfony.local",
     "license": "proprietary",
     "type": "project",
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "FineUploader/fine-uploader",
+                "version": "5.9.0",
+                "dist": {
+                    "url": "http://releases.fineuploader.com/5.9.0/fine-uploader-5.9.0.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "Logicify/jquery-locationpicker-plugin",
+                "version": "dev-master",
+                "source": {
+                    "url": "https://github.com/Logicify/jquery-locationpicker-plugin",
+                    "type": "git",
+                    "reference": "origin/master"
+                }
+            }
+        }
+    ],
     "autoload": {
         "psr-4": {
             "": "src/"
@@ -27,7 +52,10 @@
         "components/jquery": "1.9.*",
         "friendsofsymfony/user-bundle": "1.*",
         "knplabs/knp-menu-bundle": "^2.0",
-        "knplabs/knp-paginator-bundle": "^2.5"
+        "knplabs/knp-paginator-bundle": "^2.5",
+        "oneup/uploader-bundle": "1.*",
+        "FineUploader/fine-uploader": "5.9.0",
+        "Logicify/jquery-locationpicker-plugin": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",
@@ -53,7 +81,8 @@
     },
     "config": {
         "bin-dir": "bin",
-        "component-dir": "vendor/components"
+        "component-dir": "vendor/components",
+        "secure-http": false
     },
     "extra": {
         "symfony-app-dir": "app",
