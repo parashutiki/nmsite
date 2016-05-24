@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  * @ORM\Table(name="advert")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Advert
 {
@@ -76,9 +77,9 @@ class Advert
     private $totalFloor;
 
     /**
-     * @ORM\Column(type="datetime", name="posted_at", nullable=false)
+     * @ORM\Column(type="datetime", name="created_at", nullable=false)
      */
-    private $postedAt;
+    private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", name="updated_at", nullable=false)
@@ -209,7 +210,11 @@ class Advert
      */
     public function choicesRentType()
     {
-        $options = ['advert.rentType.option.hourly', 'advert.rentType.option.daily', 'advert.rentType.option.long-term'];
+        $options = [
+            'advert.rentType.option.hourly',
+            'advert.rentType.option.daily',
+            'advert.rentType.option.long-term',
+        ];
         return array_combine($options, $options);
     }
 
@@ -382,41 +387,34 @@ class Advert
     }
 
     /**
-     * Set postedAt
+     * Set createdAt
      *
-     * @param \DateTime $postedAt
-     *
-     * @return Advert
+     * @ORM\PrePersist
      */
-    public function setPostedAt($postedAt)
+    public function setCreatedAt()
     {
-        $this->postedAt = $postedAt;
-
-        return $this;
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     /**
-     * Get postedAt
+     * Get createdAt
      *
      * @return \DateTime
      */
-    public function getPostedAt()
+    public function getCreatedAt()
     {
-        return $this->postedAt;
+        return $this->createdAt;
     }
 
     /**
      * Set updatedAt
      *
-     * @param \DateTime $updatedAt
-     *
-     * @return Advert
+     * @ORM\PreUpdate
      */
     public function setUpdatedAt($updatedAt)
     {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
+        $this->updatedAt = new \DateTime();
     }
 
     /**

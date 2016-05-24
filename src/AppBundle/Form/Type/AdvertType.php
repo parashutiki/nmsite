@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AdvertType extends AbstractType
@@ -25,12 +26,12 @@ class AdvertType extends AbstractType
                 ->add('name', TextType::class, array(
                     "label" => "advert.name.label",
                     "required" => true,
-                    'translation_domain' => 'form'
+                    'translation_domain' => 'form',
                 ))
                 ->add('price', MoneyType::class, array(
                     "label" => "advert.price.label",
                     "required" => true,
-                    'translation_domain' => 'form'
+                    'translation_domain' => 'form',
                 ))
                 ->add('description', TextareaType::class)
                 ->add('rentType', ChoiceType::class, array(
@@ -38,7 +39,7 @@ class AdvertType extends AbstractType
                     'placeholder' => 'form.select',
                     'required' => false,
                     'label' => 'advert.rentType.label',
-                    'translation_domain' => 'form'
+                    'translation_domain' => 'form',
                 ))
                 ->add('rooms')
                 ->add('square')
@@ -47,7 +48,9 @@ class AdvertType extends AbstractType
                 ->add('coordsLong', HiddenType::class)
                 ->add('floor')
                 ->add('totalFloor')
-                ->add('photos');
+                ->add('photos', FileType::class, array(
+                    'multiple' => true,
+        ));
     }
 
     /**
