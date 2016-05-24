@@ -87,15 +87,10 @@ class Advert
     private $updatedAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="advert")
      * @ORM\JoinColumn(name="user_id", nullable=false, referencedColumnName="id")
      */
     private $user;
-
-    /**
-     * @ORM\Column(type="array", nullable=false)
-     */
-    private $photos;
 
     /**
      * Get id
@@ -425,30 +420,6 @@ class Advert
     public function getUpdatedAt()
     {
         return $this->updatedAt;
-    }
-
-    /**
-     * Set photos
-     *
-     * @param array $photos
-     *
-     * @return Advert
-     */
-    public function setPhotos($photos)
-    {
-        $this->photos = $photos;
-
-        return $this;
-    }
-
-    /**
-     * Get photos
-     *
-     * @return array
-     */
-    public function getPhotos()
-    {
-        return $this->photos;
     }
 
     /**

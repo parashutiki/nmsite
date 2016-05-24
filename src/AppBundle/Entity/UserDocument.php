@@ -1,7 +1,5 @@
 <?php
 
-// src/AppBundle/Entity/Document.php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -9,10 +7,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="document")
+ * @ORM\Table(name="user_document")
  * @ORM\HasLifecycleCallbacks()
  */
-class Document
+class UserDocument
 {
 
     /**
@@ -26,6 +24,12 @@ class Document
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     public $path;
+
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User", inversedBy="user_document")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    public $user;
 
     /**
      * Temp file path that will be removed automatically after upload.
@@ -79,7 +83,7 @@ class Document
     {
         // get rid of the __DIR__ so it doesn't screw up
         // when displaying uploaded doc/image in the view.
-        return 'uploads/documents';
+        return 'uploads/documents/user';
     }
 
     /**
