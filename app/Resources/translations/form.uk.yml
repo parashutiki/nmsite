@@ -1,0 +1,13 @@
+form:
+    select: "- Виберіть -"
+advert:
+    name:
+        label: Заголовок
+    price:
+        label: Ціна
+    rentType:
+        label: Тип оренди
+        option:
+            hourly: Погодинна
+            daily: Подобова
+            long-term: Довготривала

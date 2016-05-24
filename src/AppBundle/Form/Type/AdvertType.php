@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AdvertType extends AbstractType
@@ -21,10 +22,24 @@ class AdvertType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('name', TextType::class)
-                ->add('price', MoneyType::class)
+                ->add('name', TextType::class, array(
+                    "label" => "advert.name.label",
+                    "required" => true,
+                    'translation_domain' => 'form'
+                ))
+                ->add('price', MoneyType::class, array(
+                    "label" => "advert.price.label",
+                    "required" => true,
+                    'translation_domain' => 'form'
+                ))
                 ->add('description', TextareaType::class)
-                ->add('rentType')
+                ->add('rentType', ChoiceType::class, array(
+                    'choices' => $options['data']->choicesRentType(),
+                    'placeholder' => 'form.select',
+                    'required' => false,
+                    'label' => 'advert.rentType.label',
+                    'translation_domain' => 'form'
+                ))
                 ->add('rooms')
                 ->add('square')
                 ->add('address')

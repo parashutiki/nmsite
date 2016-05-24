@@ -178,7 +178,6 @@ class Advert
         return $this->description;
     }
 
-
     /**
      * Set rentType
      *
@@ -201,6 +200,17 @@ class Advert
     public function getRentType()
     {
         return $this->rentType;
+    }
+
+    /**
+     * Options rentType
+     *
+     * @return array
+     */
+    public function choicesRentType()
+    {
+        $options = ['advert.rentType.option.hourly', 'advert.rentType.option.daily', 'advert.rentType.option.long-term'];
+        return array_combine($options, $options);
     }
 
     /**
@@ -466,4 +476,5 @@ class Advert
     {
         return $this->user;
     }
+
 }

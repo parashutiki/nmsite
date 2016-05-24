@@ -1,0 +1,13 @@
+menu:
+    main:
+        home: Головна
+        advert:
+            new: Додати оголошення
+            list: Список оголошень
+        user:
+            list: Список користувачів
+    user:
+        login: Увійти
+        logout: Вийти
+        profile: Профіль
+        edit: Редагувати

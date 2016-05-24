@@ -1,0 +1,13 @@
+form:
+    select: "- Select -"
+advert:
+    name:
+        label: Title
+    price:
+        label: Price
+    rentType:
+        label: Rent type
+        option:
+            hourly: Hourly
+            daily: Daily
+            long-term: Long-term
