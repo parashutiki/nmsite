@@ -83,6 +83,7 @@ assetic:
         main_css:
             inputs:
                 - %kernel.root_dir%/../app/Resources/public/less/main.less
+                - %kernel.root_dir%/../app/Resources/public/less/fine-uploader.less
             filters:
                 - less
             output: css/main.css
@@ -142,12 +143,16 @@ assetic:
             inputs:
                 - %kernel.root_dir%/../vendor/FineUploader/fine-uploader/fine-uploader.js
             output: js/fine-uploader.js
-        fine_uploader_css:
-            inputs:
-                - %kernel.root_dir%/../vendor/FineUploader/fine-uploader/fine-uploader.min.css
-            filters:
-                - cssrewrite
-            output: css/fine-uploader.min.css
+#        fine_uploader_css:
+#            inputs:
+#                - %kernel.root_dir%/../vendor/FineUploader/fine-uploader/fine-uploader.min.css
+#            filters:
+#                - cssrewrite
+#            output: css/fine-uploader.min.css
+#        fine_uploader_loading_gif:
+#            inputs:
+#                - %kernel.root_dir%/../vendor/FineUploader/fine-uploader/loading.gif
+#            output: loading.gif
         location_picker_js:
             inputs:
                 - %kernel.root_dir%/../vendor/Logicify/jquery-locationpicker-plugin/src/locationpicker.jquery.js
@@ -179,6 +184,6 @@ knp_paginator:
 
 oneup_uploader:
     mappings:
-        advert:
+        unmanaged:
             frontend: fineuploader
     twig: true

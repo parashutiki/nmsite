@@ -8,7 +8,7 @@ framework:
     profiler: { only_exceptions: false }
 
 web_profiler:
-    toolbar: true
+    #toolbar: true
     intercept_redirects: false
 
 monolog:
@@ -37,3 +37,7 @@ monolog:
 twig:
     cache: false
     debug: true
+
+assetic:
+    debug:          false
+    use_controller: false

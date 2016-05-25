@@ -35,7 +35,7 @@ class AdvertType extends AbstractType
                 ->add('rentType', ChoiceType::class, array(
                     'choices' => $options['data']->choicesRentType(),
                     'placeholder' => 'form.select',
-                    'required' => false,
+                    'required' => true,
                     'label' => 'advert.rentType.label',
                     'translation_domain' => 'form',
                 ))

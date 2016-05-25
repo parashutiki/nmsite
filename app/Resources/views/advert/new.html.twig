@@ -4,14 +4,14 @@
     Advert creation
 {% endblock %}
 
-{% block stylesheets %}
+{#{% block stylesheets %}
     {{ parent() }}
     {% stylesheets
         '@fine_uploader_css'
     %}
     <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all"/>
     {% endstylesheets %}
-{% endblock %}
+{% endblock %}#}
 
 {% block qqTemplate %}
     <div class="qq-uploader-selector qq-uploader qq-gallery" qq-drop-area-text="Drop files here">
@@ -22,74 +22,70 @@
             <span class="qq-upload-drop-area-text-selector"></span>
         </div>
         <div class="qq-upload-button-selector qq-upload-button">
-            <div>Upload a file</div>
+            <div class="btn btn-default"><i class="glyphicon glyphicon-picture"></i> Upload a file</div>
         </div>
-        <span class="qq-drop-processing-selector qq-drop-processing">
-            <span>Processing dropped files...</span>
-            <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
-        </span>
-        <ul class="qq-upload-list-selector qq-upload-list" role="region" aria-live="polite" aria-relevant="additions removals">
-            <li>
-                <span role="status" class="qq-upload-status-text-selector qq-upload-status-text"></span>
-                <div class="qq-progress-bar-container-selector qq-progress-bar-container">
-                    <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-progress-bar-selector qq-progress-bar"></div>
-                </div>
-                <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
-                <div class="qq-thumbnail-wrapper">
-                    <a class="preview-link" target="_blank">
-                        <img class="qq-thumbnail-selector" qq-max-size="120" qq-server-scale>
-                    </a>
-                </div>
-                <button type="button" class="qq-upload-cancel-selector qq-upload-cancel">X</button>
-                <button type="button" class="qq-upload-retry-selector qq-upload-retry">
-                    <span class="qq-btn qq-retry-icon" aria-label="Retry"></span>
-                    Retry
-                </button>
 
-                <div class="qq-file-info">
-                    <div class="qq-file-name">
-                        <span class="qq-upload-file-selector qq-upload-file"></span>
-                        <span class="qq-edit-filename-icon-selector qq-edit-filename-icon" aria-label="Edit filename"></span>
+        <div class="qq-upload-list-selector qq-upload-list" role="region" aria-live="polite" aria-relevant="additions removals">
+            <div class="col-md-3 col-sm-4 col-xs-6">
+                <div class="document-comtainer">
+                    <span role="status" class="qq-upload-status-text-selector qq-upload-status-text"></span>
+                    <div class="qq-progress-bar-container-selector qq-progress-bar-container">
+                        <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-progress-bar-selector qq-progress-bar"></div>
                     </div>
-                    <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
-                    <span class="qq-upload-size-selector qq-upload-size"></span>
-                    <button type="button" class="qq-btn qq-upload-delete-selector qq-upload-delete">
-                        <span class="qq-btn qq-delete-icon" aria-label="Delete"></span>
+                    <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
+                    <div class="qq-thumbnail-wrapper">
+                        <a class="preview-link" target="_blank">
+                            <img class="qq-thumbnail-selector" qq-max-size="120" qq-server-scale>
+                        </a>
+                    </div>
+                    <button type="button" class="qq-upload-cancel-selector qq-upload-cancel glyphicon glyphicon-stop"></button>
+                    <button type="button" class="qq-upload-retry-selector qq-upload-retry">
+                        <span class="qq-btn qq-retry-icon glyphicon glyphicon-refresh" aria-label="Retry"></span>
+                        Retry
                     </button>
-                    <button type="button" class="qq-btn qq-upload-pause-selector qq-upload-pause">
-                        <span class="qq-btn qq-pause-icon" aria-label="Pause"></span>
-                    </button>
-                    <button type="button" class="qq-btn qq-upload-continue-selector qq-upload-continue">
-                        <span class="qq-btn qq-continue-icon" aria-label="Continue"></span>
-                    </button>
+
+                    <div class="qq-file-info">
+                        <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="hidden">
+                        <span class="qq-upload-size-selector qq-upload-size"></span>
+                        <button type="button" class="qq-btn qq-upload-delete-selector qq-upload-delete">
+                            <span class="qq-btn qq-delete-icon glyphicon glyphicon-trash" aria-label="Delete"></span>
+                        </button>
+                        <button type="button" class="qq-btn qq-upload-pause-selector qq-upload-pause">
+                            <span class="qq-btn qq-pause-icon glyphicon glyphicon-pause" aria-label="Pause"></span>
+                        </button>
+                        <button type="button" class="qq-btn qq-upload-continue-selector qq-upload-continue">
+                            <span class="qq-btn qq-continue-icon glyphicon glyphicon-play" aria-label="Continue"></span>
+                        </button>
+                    </div>
                 </div>
-            </li>
-        </ul>
-
-        <dialog class="qq-alert-dialog-selector">
-            <div class="qq-dialog-message-selector"></div>
-            <div class="qq-dialog-buttons">
-                <button type="button" class="qq-cancel-button-selector">Close</button>
             </div>
-        </dialog>
-
-        <dialog class="qq-confirm-dialog-selector">
-            <div class="qq-dialog-message-selector"></div>
-            <div class="qq-dialog-buttons">
-                <button type="button" class="qq-cancel-button-selector">No</button>
-                <button type="button" class="qq-ok-button-selector">Yes</button>
-            </div>
-        </dialog>
-
-        <dialog class="qq-prompt-dialog-selector">
-            <div class="qq-dialog-message-selector"></div>
-            <input type="text">
-            <div class="qq-dialog-buttons">
-                <button type="button" class="qq-cancel-button-selector">Cancel</button>
-                <button type="button" class="qq-ok-button-selector">Ok</button>
-            </div>
-        </dialog>
+        </div>
     </div>
+
+    <dialog class="qq-alert-dialog-selector">
+        <div class="qq-dialog-message-selector"></div>
+        <div class="qq-dialog-buttons">
+            <button type="button" class="qq-cancel-button-selector">Close</button>
+        </div>
+    </dialog>
+
+    <dialog class="qq-confirm-dialog-selector">
+        <div class="qq-dialog-message-selector"></div>
+        <div class="qq-dialog-buttons">
+            <button type="button" class="qq-cancel-button-selector">No</button>
+            <button type="button" class="qq-ok-button-selector">Yes</button>
+        </div>
+    </dialog>
+
+    <dialog class="qq-prompt-dialog-selector">
+        <div class="qq-dialog-message-selector"></div>
+        <input type="text">
+        <div class="qq-dialog-buttons">
+            <button type="button" class="qq-cancel-button-selector">Cancel</button>
+            <button type="button" class="qq-ok-button-selector">Ok</button>
+        </div>
+    </dialog>
+</div>
 {% endblock %}
 
 {% block javascripts %}
@@ -108,37 +104,37 @@
         $(document).ready(function () {
             var uploader = new qq.FineUploader({
                 template: 'qq-template-s3',
-                element: document.getElementById('advert_photos_uploader'),
+                element: document.getElementById('advert_documents_uploader'),
                 deleteFile: {
                     enabled: true,
                     method: "POST",
                     endpoint: ""
                 },
                 request: {
-                    endpoint: "{{ oneup_uploader_endpoint('advert') }}"
+                    endpoint: "{{ oneup_uploader_endpoint('unmanaged') }}"
                 }
             });
         });
     </script>
 
-{#    <script type="text/javascript">
-        $(document).ready(function () {
-                    $('#address_map').locationpicker({
-                        location: {
-                            latitude: 49.84478853877884,
-                            longitude: 24.0261287689209
-                        },
-                        radius: 10,
-                        enableAutocomplete: true,
-                        scrollwheel: false,
-                        inputBinding: {
-                            latitudeInput: $('#advert_coordsLat'),
-                            longitudeInput: $('#advert_coordsLong'),
-                            locationNameInput: $('#advert_address')
-                        }
-                    });
-        });
-    </script>#}
+    {#    <script type="text/javascript">
+            $(document).ready(function () {
+                        $('#address_map').locationpicker({
+                            location: {
+                                latitude: 49.84478853877884,
+                                longitude: 24.0261287689209
+                            },
+                            radius: 10,
+                            enableAutocomplete: true,
+                            scrollwheel: false,
+                            inputBinding: {
+                                latitudeInput: $('#advert_coordsLat'),
+                                longitudeInput: $('#advert_coordsLong'),
+                                locationNameInput: $('#advert_address')
+                            }
+                        });
+            });
+        </script>#}
 {% endblock %}
 
 {% block body %}
@@ -149,24 +145,39 @@
 
         {{ form_row(form.name) }}
         {{ form_row(form.description) }}
-        {{ form_row(form.rentType) }}
-        {{ form_row(form.price) }}
-        {{ form_row(form.address) }}
+        {% form_theme form 'form/bootstrap_3_horizontal_layout_two_cols.html.twig' %}
+        <div class="row">
+            {{ form_row(form.rentType) }}
+            {{ form_row(form.price) }}
+        </div>
+        <div class="row">
+            {{ form_row(form.rooms) }}
+            {{ form_row(form.square) }}
+        </div>
+        <div class="row">
+            {{ form_row(form.floor) }}
+            {{ form_row(form.totalFloor) }}
+        </div>
+        {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
 
-        <div class="form-group">
-            <div class="col-sm-10 col-sm-offset-2">
-                <div id="address_map">
-                </div>
+        <div class="form-group{% if (not form.address.vars.compound or force_error|default(false)) and not form.address.vars.valid %} has-error{% endif %}">
+            {{- form_label(form.address) -}}
+            <div class="col-sm-10">
+                {{- form_widget(form.address) -}}
+                {{- form_errors(form.address) -}}
+                <div id="address_map"></div>
             </div>
         </div>
+
         {{ form_widget(form.coordsLat) }}
         {{ form_widget(form.coordsLong) }}
 
-        {{ form_row(form.documents) }}
-        <div class="form-group">
-            <div class="col-sm-10 col-sm-offset-2">
-                <div id="advert_photos_uploader">
-                </div>
+        <div class="form-group{% if (not form.documents.vars.compound or force_error|default(false)) and not form.documents.vars.valid %} has-error{% endif %}">
+            {{- form_label(form.documents) -}}
+            <div class="col-sm-10">
+                <div id="advert_documents_uploader"></div>
+                {{- form_widget(form.documents) -}}
+                {{- form_errors(form.documents) -}}
             </div>
         </div>
 
