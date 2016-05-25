@@ -1,7 +1,5 @@
 <?php
 
-// src/AppBundle/Form/Type/AdvertType.php
-
 namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
@@ -11,8 +9,8 @@ use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class AdvertType extends AbstractType
 {
@@ -48,8 +46,10 @@ class AdvertType extends AbstractType
                 ->add('coordsLong', HiddenType::class)
                 ->add('floor')
                 ->add('totalFloor')
-                ->add('photos', FileType::class, array(
-                    'multiple' => true,
+                ->add('documents', CollectionType::class, array(
+                    'entry_type' => AdvertDocumentType::class,
+                    'allow_add' => true,
+                    'allow_delete' => true,
         ));
     }
 

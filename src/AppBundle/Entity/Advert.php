@@ -93,6 +93,12 @@ class Advert
     private $user;
 
     /**
+     * Documents
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    protected $documents;
+
+    /**
      * Get id
      *
      * @return integer
@@ -444,6 +450,16 @@ class Advert
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Get documents
+     *
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getDocuments()
+    {
+        return $this->documents;
     }
 
 }
