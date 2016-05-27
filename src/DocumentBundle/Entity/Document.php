@@ -60,7 +60,7 @@ abstract class Document
     {
         // the absolute directory path where uploaded
         // documents should be saved
-        return __DIR__ . '/../../../../web/' . $this->getUploadDir();
+        return __DIR__ . '/../../../web/' . $this->getUploadDir();
     }
 
     /**
@@ -145,6 +145,25 @@ abstract class Document
         if ($file) {
             unlink($file);
         }
+    }
+
+    /**
+     * Remove folder with files.
+     */
+    public function removeUploadDir()
+    {
+        $dirPath = $this->getAbsolutePath();
+        if (!is_dir($dirPath)) {
+            throw new InvalidArgumentException("$dirPath must be a directory");
+        }
+
+        $files = glob("$dirPath/*", GLOB_MARK);
+        foreach ($files as $file) {
+            if (is_file($file)) {
+                unlink($file);
+            }
+        }
+        rmdir($dirPath);
     }
 
 }

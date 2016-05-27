@@ -107,8 +107,7 @@
                 element: document.getElementById('advert_documents_uploader'),
                 deleteFile: {
                     enabled: true,
-                    method: "POST",
-                    endpoint: ""
+                    endpoint: "{{ path('document_delete') }}"
                 },
                 request: {
                     endpoint: "{{ oneup_uploader_endpoint('unmanaged') }}"

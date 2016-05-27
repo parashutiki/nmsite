@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Oneup\UploaderBundle\OneupUploaderBundle(),
             new AppBundle\AppBundle(),
+            new DocumentBundle\DocumentBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {
