@@ -13,6 +13,7 @@
             > .document-comtainer{
                 border-radius: 4px;
                 height: 25rem;
+                position: relative;
 
                 .qq-thumbnail-selector {
                     width: 100%;
@@ -20,5 +21,40 @@
                 }
             }
         }
+    }
+
+    .qq-hide {
+        display: none;
+    }
+
+    .qq-upload-delete,
+    .qq-upload-pause,
+    .qq-upload-continue {
+        background: none;
+        border: 0 none;
+        color: #00a0ba;
+        font-size: 1.5rem;
+        padding: 0;
+    }
+
+    .qq-file-info {
+        overflow: hidden;
+        padding: 2rem 1rem 1rem;
+        text-align: left;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .qq-btn {
+        border: 0 none;
+        box-shadow: none;
+        float: right;
+        margin: 0;
+        padding: 0;
+    }
+
+    .qq-upload-size {
+        position: absolute;
     }
 }

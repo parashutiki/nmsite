@@ -25,7 +25,7 @@
             <div class="btn btn-default"><i class="glyphicon glyphicon-picture"></i> Upload a file</div>
         </div>
 
-        <div class="qq-upload-list-selector qq-upload-list" role="region" aria-live="polite" aria-relevant="additions removals">
+        <div class="qq-upload-list-selector qq-upload-list row" role="region" aria-live="polite" aria-relevant="additions removals">
             <div class="col-md-3 col-sm-4 col-xs-6">
                 <div class="document-comtainer">
                     <span role="status" class="qq-upload-status-text-selector qq-upload-status-text"></span>
@@ -145,14 +145,24 @@
 
         {{ form_row(form.name) }}
         {{ form_row(form.description) }}
+
+        <div class="form-group{% if (not form.documents.vars.compound or force_error|default(false)) and not form.documents.vars.valid %} has-error{% endif %}">
+            {{- form_label(form.documents) -}}
+            <div class="col-sm-10">
+                <div id="advert_documents_uploader"></div>
+                {{- form_widget(form.documents) -}}
+                {{- form_errors(form.documents) -}}
+            </div>
+        </div>
+
         {% form_theme form 'form/bootstrap_3_horizontal_layout_two_cols.html.twig' %}
         <div class="row">
             {{ form_row(form.rentType) }}
-            {{ form_row(form.price) }}
+            {{ form_row(form.price, {'money_pattern': '{{ widget }} ' ~ 'form.currency'|trans({},'form')}) }}
         </div>
         <div class="row">
             {{ form_row(form.rooms) }}
-            {{ form_row(form.square) }}
+            {{ form_row(form.square, {'suffix': 'M', 'suffix_sup': '2' }) }}
         </div>
         <div class="row">
             {{ form_row(form.floor) }}
@@ -171,15 +181,6 @@
 
         {{ form_widget(form.coordsLat) }}
         {{ form_widget(form.coordsLong) }}
-
-        <div class="form-group{% if (not form.documents.vars.compound or force_error|default(false)) and not form.documents.vars.valid %} has-error{% endif %}">
-            {{- form_label(form.documents) -}}
-            <div class="col-sm-10">
-                <div id="advert_documents_uploader"></div>
-                {{- form_widget(form.documents) -}}
-                {{- form_errors(form.documents) -}}
-            </div>
-        </div>
 
         <input class="btn btn-success" type="submit" value="Create" />
         {{ form_end(form) }}

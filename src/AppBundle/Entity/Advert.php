@@ -245,6 +245,23 @@ class Advert
     }
 
     /**
+     * Options rooms
+     *
+     * @return array
+     */
+    public function choicesRooms()
+    {
+        $options = [
+            1,
+            2,
+            3,
+            4,
+            5,
+        ];
+        return array_combine($options, $options);
+    }
+
+    /**
      * Set square
      *
      * @param string $square
@@ -365,6 +382,34 @@ class Advert
     }
 
     /**
+     * Options floor
+     *
+     * @return array
+     */
+    public function choicesFloor()
+    {
+        $options = [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+        ];
+        return array(-1 => 'Under') + array_combine($options, $options);
+    }
+
+    /**
      * Set totalFloor
      *
      * @param integer $totalFloor
@@ -386,6 +431,34 @@ class Advert
     public function getTotalFloor()
     {
         return $this->totalFloor;
+    }
+
+    /**
+     * Options totalFloor
+     *
+     * @return array
+     */
+    public function choicesTotalFloor()
+    {
+        $options = [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+        ];
+        return array_combine($options, $options);
     }
 
     /**

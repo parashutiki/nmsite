@@ -1,5 +1,6 @@
 form:
     select: "- Select -"
+    currency: UAH
 advert:
     name:
         label: Title
@@ -11,3 +12,9 @@ advert:
             hourly: Hourly
             daily: Daily
             long-term: Long-term
+    rooms:
+        label: Rooms
+    floor:
+        label: Floor
+    totalFloor:
+        label: Total floors
