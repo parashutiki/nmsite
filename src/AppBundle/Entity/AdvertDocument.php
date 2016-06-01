@@ -15,10 +15,37 @@ class AdvertDocument extends BaseDocument
 {
 
     /**
+     * Types.
+     */
+    const TYPE_UNMANAGED = 'unmanaged';
+    const TYPE_DOCUMENT = 'document';
+
+    /**
+     * Type
+     * @var string
+     */
+    public $type;
+
+    /**
+     * Unique id.
+     * @var string
+     */
+    public $uuid;
+
+    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Advert", inversedBy="advert_document")
      * @ORM\JoinColumn(name="advert_id", referencedColumnName="id")
      */
     protected $advert;
+
+    /**
+     * Set advert
+     * @param Advert $advert
+     */
+    public function setAdvert(Advert $advert)
+    {
+        $this->advert = $advert;
+    }
 
     /**
      * Get advert
@@ -30,12 +57,20 @@ class AdvertDocument extends BaseDocument
     }
 
     /**
-     * Set advert
-     * @param Advert $advert
+     * @ORM\PrePersist
      */
-    public function setAdvert(Advert $advert)
+    public function prePersist()
     {
-        $this->advert = $advert;
+        $this->setPath($this->uuid);
+    }
+
+    /**
+     * Set path
+     * @param string $uuid
+     */
+    public function setPath($uuid)
+    {
+        $this->path = $uuid;
     }
 
     /**

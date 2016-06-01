@@ -4,15 +4,6 @@
     Advert creation
 {% endblock %}
 
-{#{% block stylesheets %}
-    {{ parent() }}
-    {% stylesheets
-        '@fine_uploader_css'
-    %}
-    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all"/>
-    {% endstylesheets %}
-{% endblock %}#}
-
 {% block qqTemplate %}
     <div class="qq-uploader-selector qq-uploader qq-gallery" qq-drop-area-text="Drop files here">
         <div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
@@ -45,7 +36,8 @@
                     </button>
 
                     <div class="qq-file-info">
-                        <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="hidden">
+                        <input type="hidden" class="advert-document-uuid" />
+                        <input type="hidden" class="advert-document-type" />
                         <span class="qq-upload-size-selector qq-upload-size"></span>
                         <button type="button" class="qq-btn qq-upload-delete-selector qq-upload-delete">
                             <span class="qq-btn qq-delete-icon glyphicon glyphicon-trash" aria-label="Delete"></span>
@@ -111,29 +103,48 @@
                 },
                 request: {
                     endpoint: "{{ oneup_uploader_endpoint('unmanaged') }}"
+                },
+                callbacks: {
+                    onComplete: function (id, name, response) {
+                        var fileItem = this.getItemByFileId(id);
+                        if (response.success) {
+                            $(qq(fileItem).getByClass('advert-document-uuid')[0])
+                                    .attr({
+                                        id: 'advert_documents___name___uuid'.replace('__name__', id),
+                                        name: 'advert[documents][__name__][uuid]'.replace('__name__', id),
+                                        value: this.getUuid(id)
+                                    });
+                            $(qq(fileItem).getByClass('advert-document-type')[0])
+                                    .attr({
+                                        id: 'advert_documents___name___type'.replace('__name__', id),
+                                        name: 'advert[documents][__name__][type]'.replace('__name__', id),
+                                        value: '{{ constant('AppBundle\\Entity\\AdvertDocument::TYPE_UNMANAGED') }}'
+                                    });
+                        }
+                    }
                 }
             });
         });
     </script>
 
-    {#    <script type="text/javascript">
-            $(document).ready(function () {
-                        $('#address_map').locationpicker({
-                            location: {
-                                latitude: 49.84478853877884,
-                                longitude: 24.0261287689209
-                            },
-                            radius: 10,
-                            enableAutocomplete: true,
-                            scrollwheel: false,
-                            inputBinding: {
-                                latitudeInput: $('#advert_coordsLat'),
-                                longitudeInput: $('#advert_coordsLong'),
-                                locationNameInput: $('#advert_address')
-                            }
-                        });
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#address_map').locationpicker({
+                location: {
+                    latitude: 49.84478853877884,
+                    longitude: 24.0261287689209
+                },
+                radius: 10,
+                enableAutocomplete: true,
+                scrollwheel: false,
+                inputBinding: {
+                    latitudeInput: $('#advert_coordsLat'),
+                    longitudeInput: $('#advert_coordsLong'),
+                    locationNameInput: $('#advert_address')
+                }
             });
-        </script>#}
+        });
+    </script>
 {% endblock %}
 
 {% block body %}

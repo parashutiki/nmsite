@@ -100,6 +100,14 @@ class Advert
     protected $documents;
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->documents = new ArrayCollection();
+    }
+
+    /**
      * Get id
      *
      * @return integer
@@ -527,6 +535,18 @@ class Advert
     }
 
     /**
+     * Set documents
+     *
+     * @param ArrayCollection $documents
+     */
+    public function setDocuments(ArrayCollection $documents)
+    {
+        $this->documents = $documents;
+
+        return $this;
+    }
+
+    /**
      * Get documents
      *
      * @return ArrayCollection
@@ -534,6 +554,26 @@ class Advert
     public function getDocuments()
     {
         return $this->documents;
+    }
+
+    /**
+     * Add document
+     *
+     * @param \AppBundle\Entity\AdvertDocument $document
+     */
+    public function addDocument(AdvertDocument $document)
+    {
+        $this->documents->add($document);
+    }
+
+    /**
+     * Remove document
+     *
+     * @param \AppBundle\Entity\AdvertDocument $document
+     */
+    public function removeDocument(AdvertDocument $document)
+    {
+        $this->documents->removeElement($document);
     }
 
 }

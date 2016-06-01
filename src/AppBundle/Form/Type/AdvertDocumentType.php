@@ -13,7 +13,9 @@ class AdvertDocumentType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('file');
+        $builder
+                ->add('uuid')
+                ->add('type');
     }
 
     public function configureOptions(OptionsResolver $resolver)

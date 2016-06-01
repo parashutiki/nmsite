@@ -51,8 +51,14 @@ class AdvertController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $advert->setUser($this->getUser());
             $em = $this->getDoctrine()->getManager();
             $em->persist($advert);
+            foreach ($advert->getDocuments() as $advertDocument) {
+                /* @var $advertDocument \AppBundle\Entity\AdvertDocument */
+                $advertDocument->setAdvert($advert);
+                $em->persist($advertDocument);
+            }
             $em->flush();
 
             return $this->redirectToRoute('advert_show', array('id' => $advert->getId()));
