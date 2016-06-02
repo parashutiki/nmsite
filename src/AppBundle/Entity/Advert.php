@@ -7,6 +7,8 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
+use DocumentBundle\Entity\UnmanagedDocument;
+
 /**
  * @ORM\Entity
  * @ORM\Table(name="advert")
@@ -94,17 +96,17 @@ class Advert
     private $user;
 
     /**
-     * Documents
+     * Unmanaged Documents
      * @var ArrayCollection
      */
-    protected $documents;
+    protected $unmanagedDocuments;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->documents = new ArrayCollection();
+        $this->unmanagedDocuments = new ArrayCollection();
     }
 
     /**
@@ -535,45 +537,45 @@ class Advert
     }
 
     /**
-     * Set documents
+     * Set unmanagedDocuments
      *
-     * @param ArrayCollection $documents
+     * @param ArrayCollection $unmanagedDocuments
      */
-    public function setDocuments(ArrayCollection $documents)
+    public function setUnmanagedDocuments(ArrayCollection $unmanagedDocuments)
     {
-        $this->documents = $documents;
+        $this->unmanagedDocuments = $unmanagedDocuments;
 
         return $this;
     }
 
     /**
-     * Get documents
+     * Get unmanagedDocuments
      *
      * @return ArrayCollection
      */
-    public function getDocuments()
+    public function getUnmanagedDocuments()
     {
-        return $this->documents;
+        return $this->unmanagedDocuments;
     }
 
     /**
-     * Add document
+     * Add unmanagedDocument
      *
-     * @param \AppBundle\Entity\AdvertDocument $document
+     * @param UnmanagedDocument $unmanagedDocument
      */
-    public function addDocument(AdvertDocument $document)
+    public function addUnmanagedDocument(UnmanagedDocument $unmanagedDocument)
     {
-        $this->documents->add($document);
+        $this->unmanagedDocuments->add($unmanagedDocument);
     }
 
     /**
-     * Remove document
+     * Remove unmanagedDocument
      *
-     * @param \AppBundle\Entity\AdvertDocument $document
+     * @param UnmanagedDocument $unmanagedDocument
      */
-    public function removeDocument(AdvertDocument $document)
+    public function removeUnmanagedDocument(UnmanagedDocument $unmanagedDocument)
     {
-        $this->documents->removeElement($document);
+        $this->unmanagedDocuments->removeElement($unmanagedDocument);
     }
 
 }

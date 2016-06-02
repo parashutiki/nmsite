@@ -4,6 +4,7 @@ namespace DocumentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
 
 abstract class Document
 {
@@ -18,13 +19,7 @@ abstract class Document
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    public $path;
-
-    /**
-     * Temp file path that will be removed automatically after upload.
-     * @var type
-     */
-    private $temp;
+    protected $path;
 
     /**
      * @Assert\File(maxSize="6000000")
@@ -38,7 +33,7 @@ abstract class Document
      */
     public function getAbsolutePath()
     {
-        return null === $this->path ? null : $this->getUploadRootDir() . '/' . $this->path;
+        return null === $this->getPath() ? null : $this->getUploadRootDir() . '/' . $this->getPath();
     }
 
     /**
@@ -48,7 +43,7 @@ abstract class Document
      */
     public function getWebPath()
     {
-        return null === $this->path ? null : $this->getUploadDir() . '/' . $this->path;
+        return null === $this->getPath() ? null : $this->getUploadDir() . '/' . $this->getPath();
     }
 
     /**
@@ -73,25 +68,21 @@ abstract class Document
     /**
      * Sets file
      *
-     * @param UploadedFile $file
+     * @param File $file File
+     *
+     * @return Document
      */
-    public function setFile(UploadedFile $file = null)
+    public function setFile(File $file = null)
     {
         $this->file = $file;
-        // check if we have an old image path
-        if (isset($this->path)) {
-            // store the old name to delete after the update
-            $this->temp = $this->path;
-            $this->path = null;
-        } else {
-            $this->path = 'initial';
-        }
+
+        return $this;
     }
 
     /**
      * Get file
      *
-     * @return UploadedFile
+     * @return File
      */
     public function getFile()
     {
@@ -99,71 +90,44 @@ abstract class Document
     }
 
     /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
+     * Set path
+     *
+     * @param string $path Path
+     *
+     * @return Document
      */
-    public function preUpload()
+    public function setPath($path)
     {
-        if (null !== $this->getFile()) {
-            // do whatever you want to generate a unique name
-            $filename = sha1(uniqid(mt_rand(), true));
-            $this->path = $filename . '.' . $this->getFile()->guessExtension();
-        }
+        $this->path = $path;
+
+        return $this;
     }
 
     /**
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
+     * Get path
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * Upload file
+     *
+     * @return Document
      */
     public function upload()
     {
         if (null === $this->getFile()) {
-            return;
+            return $this;
         }
 
-        // if there is an error when moving the file, an exception will
-        // be automatically thrown by move(). This will properly prevent
-        // the entity from being persisted to the database on error
-        $this->getFile()->move($this->getUploadRootDir(), $this->path);
+        $this->getFile()->move($this->getUploadRootDir(), $this->getPath());
+        $this->setFile(null);
 
-        // check if we have an old image
-        if (isset($this->temp)) {
-            // delete the old image
-            unlink($this->getUploadRootDir() . '/' . $this->temp);
-            // clear the temp image path
-            $this->temp = null;
-        }
-        $this->file = null;
-    }
-
-    /**
-     * @ORM\PostRemove()
-     */
-    public function removeUpload()
-    {
-        $file = $this->getAbsolutePath();
-        if ($file) {
-            unlink($file);
-        }
-    }
-
-    /**
-     * Remove folder with files.
-     */
-    public function removeUploadDir()
-    {
-        $dirPath = $this->getAbsolutePath();
-        if (!is_dir($dirPath)) {
-            throw new InvalidArgumentException("$dirPath must be a directory");
-        }
-
-        $files = glob("$dirPath/*", GLOB_MARK);
-        foreach ($files as $file) {
-            if (is_file($file)) {
-                unlink($file);
-            }
-        }
-        rmdir($dirPath);
+        return $this;
     }
 
 }

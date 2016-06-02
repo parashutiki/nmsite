@@ -36,8 +36,7 @@
                     </button>
 
                     <div class="qq-file-info">
-                        <input type="hidden" class="advert-document-uuid" />
-                        <input type="hidden" class="advert-document-type" />
+                        <input type="hidden" class="advert-unmanagedDocument-uuid" />
                         <span class="qq-upload-size-selector qq-upload-size"></span>
                         <button type="button" class="qq-btn qq-upload-delete-selector qq-upload-delete">
                             <span class="qq-btn qq-delete-icon glyphicon glyphicon-trash" aria-label="Delete"></span>
@@ -96,10 +95,10 @@
         $(document).ready(function () {
             var uploader = new qq.FineUploader({
                 template: 'qq-template-s3',
-                element: document.getElementById('advert_documents_uploader'),
+                element: document.getElementById('advert_unmanagedDocuments_uploader'),
                 deleteFile: {
                     enabled: true,
-                    endpoint: "{{ path('document_delete') }}"
+                    endpoint: "{{ path('unmanagedDocument_delete') }}"
                 },
                 request: {
                     endpoint: "{{ oneup_uploader_endpoint('unmanaged') }}"
@@ -108,17 +107,11 @@
                     onComplete: function (id, name, response) {
                         var fileItem = this.getItemByFileId(id);
                         if (response.success) {
-                            $(qq(fileItem).getByClass('advert-document-uuid')[0])
+                            $(qq(fileItem).getByClass('advert-unmanagedDocument-uuid')[0])
                                     .attr({
-                                        id: 'advert_documents___name___uuid'.replace('__name__', id),
-                                        name: 'advert[documents][__name__][uuid]'.replace('__name__', id),
+                                        id: 'advert_unmanagedDocuments___name___uuid'.replace('__name__', id),
+                                        name: 'advert[unmanagedDocuments][__name__][uuid]'.replace('__name__', id),
                                         value: this.getUuid(id)
-                                    });
-                            $(qq(fileItem).getByClass('advert-document-type')[0])
-                                    .attr({
-                                        id: 'advert_documents___name___type'.replace('__name__', id),
-                                        name: 'advert[documents][__name__][type]'.replace('__name__', id),
-                                        value: '{{ constant('AppBundle\\Entity\\AdvertDocument::TYPE_UNMANAGED') }}'
                                     });
                         }
                     }
@@ -156,12 +149,12 @@
         {{ form_row(form.name) }}
         {{ form_row(form.description) }}
 
-        <div class="form-group{% if (not form.documents.vars.compound or force_error|default(false)) and not form.documents.vars.valid %} has-error{% endif %}">
-            {{- form_label(form.documents) -}}
+        <div class="form-group{% if (not form.unmanagedDocuments.vars.compound or force_error|default(false)) and not form.unmanagedDocuments.vars.valid %} has-error{% endif %}">
+            {{- form_label(form.unmanagedDocuments) -}}
             <div class="col-sm-10">
-                <div id="advert_documents_uploader"></div>
-                {{- form_widget(form.documents) -}}
-                {{- form_errors(form.documents) -}}
+                <div id="advert_unmanagedDocuments_uploader"></div>
+                {{- form_widget(form.unmanagedDocuments) -}}
+                {{- form_errors(form.unmanagedDocuments) -}}
             </div>
         </div>
 

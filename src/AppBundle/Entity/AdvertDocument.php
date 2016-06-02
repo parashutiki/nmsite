@@ -5,6 +5,8 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use DocumentBundle\Entity\Document as BaseDocument;
 use AppBundle\Entity\Advert;
+use Symfony\Component\Filesystem\Filesystem;
+use DocumentBundle\Entity\UnmanagedDocument;
 
 /**
  * @ORM\Entity
@@ -15,40 +17,34 @@ class AdvertDocument extends BaseDocument
 {
 
     /**
-     * Types.
-     */
-    const TYPE_UNMANAGED = 'unmanaged';
-    const TYPE_DOCUMENT = 'document';
-
-    /**
-     * Type
-     * @var string
-     */
-    public $type;
-
-    /**
-     * Unique id.
-     * @var string
-     */
-    public $uuid;
-
-    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Advert", inversedBy="advert_document")
      * @ORM\JoinColumn(name="advert_id", referencedColumnName="id")
      */
     protected $advert;
 
     /**
+     * Unmanaged document
+     * @var UnmanagedDocument
+     */
+    private $unmanagedDocument;
+
+    /**
      * Set advert
-     * @param Advert $advert
+     *
+     * @param Advert $advert Advert
+     *
+     * @return AdvertDocument
      */
     public function setAdvert(Advert $advert)
     {
         $this->advert = $advert;
+
+        return $this;
     }
 
     /**
      * Get advert
+     *
      * @return Advert
      */
     public function getAdvert()
@@ -57,20 +53,48 @@ class AdvertDocument extends BaseDocument
     }
 
     /**
-     * @ORM\PrePersist
+     * Set unmanagedDocument
+     *
+     * @param UnmanagedDocument $unmanagedDocument Unmanaged document
+     *
+     * @return AdvertDocument
      */
-    public function prePersist()
+    public function setUnmanagedDocument(UnmanagedDocument $unmanagedDocument)
     {
-        $this->setPath($this->uuid);
+        $this->unmanagedDocument = $unmanagedDocument;
+
+        return $this;
     }
 
     /**
-     * Set path
-     * @param string $uuid
+     * Get unmanagedDocument
+     *
+     * @return UnmanagedDocument
      */
-    public function setPath($uuid)
+    public function getUnmanagedDocument()
     {
-        $this->path = $uuid;
+        return $this->unmanagedDocument;
+    }
+
+    /**
+     * Move unmanagedDocument
+     *
+     * @param UnmanagedDocument $unmanagedDocument Unmanaged document
+     *
+     * @return boolean Status
+     */
+    public function move()
+    {
+        if (null === $this->getUnmanagedDocument()) {
+            return FALSE;
+        }
+
+        $fs = new Filesystem();
+        $this->path = $this->unmanagedDocument->getPath();
+        $fs->rename($this->unmanagedDocument->getAbsolutePath(), $this->getAbsolutePath());
+        $this->unmanagedDocument->setPath(null);
+
+        return TRUE;
     }
 
     /**

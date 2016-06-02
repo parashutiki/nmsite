@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use DocumentBundle\Form\Type\UnmanagedDocumentType;
 
 class AdvertType extends AbstractType
 {
@@ -85,8 +86,8 @@ class AdvertType extends AbstractType
                     'translation_domain' => 'form',
                     'data' => '1',
                 ))
-                ->add('documents', CollectionType::class, array(
-                    'entry_type' => AdvertDocumentType::class,
+                ->add('unmanagedDocuments', CollectionType::class, array(
+                    'entry_type' => UnmanagedDocumentType::class,
                     'allow_add' => true,
                     'allow_delete' => true,
                     'by_reference' => false,

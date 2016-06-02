@@ -9,27 +9,27 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use DocumentBundle\Entity\UnmanagedDocument;
 
 /**
- * Document controller.
+ * Unmanaged document controller.
  *
- * @Route("/document")
+ * @Route("/unmanagedDocument")
  */
-class DocumentController extends Controller
+class UnmanagedDocumentController extends Controller
 {
 
     /**
-     * Delete unmanaged document.
+     * Delete
      *
-     * @Route("/delete/{uuid}", name="document_delete")
+     * @Route("/delete/{uuid}", name="unmanagedDocument_delete")
      *
      * @Method("DELETE")
      */
     public function deleteAction($uuid = '')
     {
         $unmanagedDocument = new UnmanagedDocument();
-        $unmanagedDocument->path = $uuid;
-        $unmanagedDocument->removeUploadDir();
+        $unmanagedDocument->uuid = $uuid;
+        $status = $unmanagedDocument->delete();
 
-        return new JsonResponse(true);
+        return new JsonResponse($status);
     }
 
 }

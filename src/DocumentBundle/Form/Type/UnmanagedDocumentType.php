@@ -1,27 +1,23 @@
 <?php
 
-// src/AppBundle/Form/Type/AdvertDocumentType.php
-
-namespace AppBundle\Form\Type;
+namespace DocumentBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AdvertDocumentType extends AbstractType
+class UnmanagedDocumentType extends AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-                ->add('uuid')
-                ->add('type');
+        $builder->add('uuid');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\AdvertDocument',
+            'data_class' => 'DocumentBundle\Entity\UnmanagedDocument',
         ));
     }
 

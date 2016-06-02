@@ -9,6 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use AppBundle\Entity\Advert;
 use AppBundle\Form\Type\AdvertType;
+use DocumentBundle\Entity\UnmanagedDocument;
+use AppBundle\Entity\AdvertDocument;
 
 /**
  * Advert controller.
@@ -54,9 +56,15 @@ class AdvertController extends Controller
             $advert->setUser($this->getUser());
             $em = $this->getDoctrine()->getManager();
             $em->persist($advert);
-            foreach ($advert->getDocuments() as $advertDocument) {
-                /* @var $advertDocument \AppBundle\Entity\AdvertDocument */
-                $advertDocument->setAdvert($advert);
+
+            foreach ($advert->getUnmanagedDocuments() as $unmanagedDocument) {
+                /* @var $unmanagedDocument UnmanagedDocument */
+                $advertDocument = new AdvertDocument();
+                $advertDocument
+                        ->setUnmanagedDocument($unmanagedDocument)
+                        ->setAdvert($advert)
+                        ->move();
+                $unmanagedDocument = null;
                 $em->persist($advertDocument);
             }
             $em->flush();
