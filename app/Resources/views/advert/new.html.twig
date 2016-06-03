@@ -95,7 +95,7 @@
         $(document).ready(function () {
             var uploader = new qq.FineUploader({
                 template: 'qq-template-s3',
-                element: document.getElementById('advert_unmanagedDocuments_uploader'),
+                element: document.getElementById('advert_form_new_unmanagedDocuments_uploader'),
                 deleteFile: {
                     enabled: true,
                     endpoint: "{{ path('unmanagedDocument_delete') }}"
@@ -109,8 +109,8 @@
                         if (response.success) {
                             $(qq(fileItem).getByClass('advert-unmanagedDocument-uuid')[0])
                                     .attr({
-                                        id: 'advert_unmanagedDocuments___name___uuid'.replace('__name__', id),
-                                        name: 'advert[unmanagedDocuments][__name__][uuid]'.replace('__name__', id),
+                                        id: 'advert_form_new_unmanagedDocuments___name___uuid'.replace('__name__', id),
+                                        name: 'advert_form_new[unmanagedDocuments][__name__][uuid]'.replace('__name__', id),
                                         value: this.getUuid(id)
                                     });
                         }
@@ -142,51 +142,70 @@
 
 {% block body %}
     <div class="container">
-        <h1>Advert creation</h1>
-        {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
-        {{ form_start(form) }}
+        <div class="panel-group">
+            <div class="panel panel-success">
+                <div class="panel-heading">Advert creation</div>
+                <div class="panel-body">
+                    {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+                    {{ form_start(form) }}
 
-        {{ form_row(form.name) }}
-        {{ form_row(form.description) }}
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.description) }}
 
-        <div class="form-group{% if (not form.unmanagedDocuments.vars.compound or force_error|default(false)) and not form.unmanagedDocuments.vars.valid %} has-error{% endif %}">
-            {{- form_label(form.unmanagedDocuments) -}}
-            <div class="col-sm-10">
-                <div id="advert_unmanagedDocuments_uploader"></div>
-                {{- form_widget(form.unmanagedDocuments) -}}
-                {{- form_errors(form.unmanagedDocuments) -}}
+                    <div class="form-group{% if (not form.unmanagedDocuments.vars.compound or force_error|default(false)) and not form.unmanagedDocuments.vars.valid %} has-error{% endif %}">
+                        {{- form_label(form.unmanagedDocuments) -}}
+                        <div class="col-sm-10">
+                            <div id="advert_form_new_unmanagedDocuments_uploader"></div>
+                            {{- form_widget(form.unmanagedDocuments) -}}
+                            {{- form_errors(form.unmanagedDocuments) -}}
+                        </div>
+                    </div>
+
+                    {% form_theme form 'form/bootstrap_3_horizontal_layout_two_cols.html.twig' %}
+                    <div class="row">
+                        {{ form_row(form.rentType) }}
+                        {{ form_row(form.price, {'money_pattern': '{{ widget }} ' ~ 'form.currency'|trans({},'form')}) }}
+                    </div>
+                    <div class="row">
+                        {{ form_row(form.rooms) }}
+                        {{ form_row(form.square, {'suffix': 'M', 'suffix_sup': '2' }) }}
+                    </div>
+                    <div class="row">
+                        {{ form_row(form.floor) }}
+                        {{ form_row(form.totalFloor) }}
+                    </div>
+                    {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+
+                    <div class="form-group{% if (not form.address.vars.compound or force_error|default(false)) and not form.address.vars.valid %} has-error{% endif %}">
+                        {{- form_label(form.address) -}}
+                        <div class="col-sm-10">
+                            {{- form_widget(form.address) -}}
+                            {{- form_errors(form.address) -}}
+                            <div id="address_map"></div>
+                        </div>
+                    </div>
+
+                    {{ form_widget(form.coordsLat) }}
+                    {{ form_widget(form.coordsLong) }}
+
+                    {% if not app.user %}
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <h3 class="col-sm-2 control-label">User account</h3>
+                                </div>
+                            </div>
+                        </div>
+                        {{ form_widget(form.user) }}
+                    {% endif %}
+                    <div class="form-group">
+                        <div class="col-lg-offset-2 col-lg-10">
+                            <input class="btn btn-success" type="submit" value="Create" />
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
             </div>
         </div>
-
-        {% form_theme form 'form/bootstrap_3_horizontal_layout_two_cols.html.twig' %}
-        <div class="row">
-            {{ form_row(form.rentType) }}
-            {{ form_row(form.price, {'money_pattern': '{{ widget }} ' ~ 'form.currency'|trans({},'form')}) }}
-        </div>
-        <div class="row">
-            {{ form_row(form.rooms) }}
-            {{ form_row(form.square, {'suffix': 'M', 'suffix_sup': '2' }) }}
-        </div>
-        <div class="row">
-            {{ form_row(form.floor) }}
-            {{ form_row(form.totalFloor) }}
-        </div>
-        {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
-
-        <div class="form-group{% if (not form.address.vars.compound or force_error|default(false)) and not form.address.vars.valid %} has-error{% endif %}">
-            {{- form_label(form.address) -}}
-            <div class="col-sm-10">
-                {{- form_widget(form.address) -}}
-                {{- form_errors(form.address) -}}
-                <div id="address_map"></div>
-            </div>
-        </div>
-
-        {{ form_widget(form.coordsLat) }}
-        {{ form_widget(form.coordsLong) }}
-
-        <input class="btn btn-success" type="submit" value="Create" />
-        {{ form_end(form) }}
-
     </div>
 {% endblock %}

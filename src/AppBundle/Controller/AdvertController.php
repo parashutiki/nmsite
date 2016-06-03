@@ -11,6 +11,9 @@ use AppBundle\Entity\Advert;
 use AppBundle\Form\Type\AdvertType;
 use DocumentBundle\Entity\UnmanagedDocument;
 use AppBundle\Entity\AdvertDocument;
+use AppBundle\Entity\User;
+use AppBundle\Form\Handler\AdvertFormHandler;
+use Symfony\Component\Form\Form;
 
 /**
  * Advert controller.
@@ -46,34 +49,21 @@ class AdvertController extends Controller
      * @Route("/new", name="advert_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function newAction()
     {
-        $advert = new Advert();
-        $form = $this->createForm(AdvertType::class, $advert);
-        $form->handleRequest($request);
+        /* @var $form Form */
+        $form = $this->container->get('app.form.advert.new');
+        /* @var $formHandler AdvertFormHandler */
+        $formHandler = $this->container->get('app.form.advert.new.handler');
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $advert->setUser($this->getUser());
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($advert);
-
-            foreach ($advert->getUnmanagedDocuments() as $unmanagedDocument) {
-                /* @var $unmanagedDocument UnmanagedDocument */
-                $advertDocument = new AdvertDocument();
-                $advertDocument
-                        ->setUnmanagedDocument($unmanagedDocument)
-                        ->setAdvert($advert)
-                        ->move();
-                $unmanagedDocument = null;
-                $em->persist($advertDocument);
-            }
-            $em->flush();
-
-            return $this->redirectToRoute('advert_show', array('id' => $advert->getId()));
+        if ($formHandler->process()) {
+            $advert = $form->getData();
+            return $this->redirectToRoute('advert_show', array(
+                        'id' => $advert->getId(),
+            ));
         }
 
         return $this->render('advert/new.html.twig', array(
-                    'advert' => $advert,
                     'form' => $form->createView(),
         ));
     }

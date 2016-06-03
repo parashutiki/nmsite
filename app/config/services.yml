@@ -4,9 +4,6 @@ parameters:
 #    parameter_name: value
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
     app.menu_builder:
         class: AppBundle\Menu\MenuBuilder
         arguments: ['@security.context', '@knp_menu.factory']
@@ -30,3 +27,24 @@ services:
         arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: kernel.event_listener, event: oneup_uploader.post_persist, method: onUpload }
+
+    app.entity.advert:
+        class: AppBundle\Entity\Advert
+
+    app.form.type.advert:
+        class: AppBundle\Form\Type\AdvertType
+        arguments: ["@security.context"]
+        tags:
+            - { name: form.type, alias: advert_type }
+
+    app.form.advert.new:
+        class: Symfony\Component\Form\Form
+        factory: ["@form.factory", createNamed]
+        arguments:
+            - advert_form_new
+            - advert_type
+
+    app.form.advert.new.handler:
+        class: AppBundle\Form\Handler\AdvertFormHandler
+        scope: request
+        arguments: ["@app.form.advert.new", "@request", "@doctrine.orm.entity_manager", "@security.context", "@app.entity.advert"]

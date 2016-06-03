@@ -220,7 +220,7 @@ class Advert
      *
      * @return array
      */
-    public function choicesRentType()
+    public static function choicesRentType()
     {
         $options = [
             'advert.rentType.option.hourly',
@@ -259,7 +259,7 @@ class Advert
      *
      * @return array
      */
-    public function choicesRooms()
+    public static function choicesRooms()
     {
         $options = [
             1,
@@ -396,7 +396,7 @@ class Advert
      *
      * @return array
      */
-    public function choicesFloor()
+    public static function choicesFloor()
     {
         $options = [
             1,
@@ -448,7 +448,7 @@ class Advert
      *
      * @return array
      */
-    public function choicesTotalFloor()
+    public static function choicesTotalFloor()
     {
         $options = [
             1,

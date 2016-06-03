@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form\Type;
 
+use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -10,20 +11,40 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use DocumentBundle\Form\Type\UnmanagedDocumentType;
+use FOS\UserBundle\Form\Type\RegistrationFormType;
+use AppBundle\Entity\Advert;
 
+/**
+ * Advert type.
+ */
 class AdvertType extends AbstractType
 {
+
+    /**
+     * Security Context
+     *
+     * @var SecurityContext
+     */
+    private $context;
+
+    /**
+     * Constructor.
+     *
+     * @param SecurityContext $context Context
+     */
+    public function __construct(SecurityContext $context)
+    {
+        $this->context = $context;
+    }
 
     /**
      * Overrides method {@link AbstractType::buildForm()}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        /* @var $advert Advert */
-        $advert = $options['data'];
         $builder
                 ->add('name', TextType::class, array(
                     'label' => 'advert.name.label',
@@ -43,7 +64,7 @@ class AdvertType extends AbstractType
                     'data' => 'TEST DESCRIPTION',
                 ))
                 ->add('rentType', ChoiceType::class, array(
-                    'choices' => $advert->choicesRentType(),
+                    'choices' => Advert::choicesRentType(),
                     'placeholder' => 'form.select',
                     'required' => true,
                     'label' => 'advert.rentType.label',
@@ -51,7 +72,7 @@ class AdvertType extends AbstractType
                     'data' => 'advert.rentType.option.hourly',
                 ))
                 ->add('rooms', ChoiceType::class, array(
-                    'choices' => $advert->choicesRooms(),
+                    'choices' => Advert::choicesRooms(),
                     'placeholder' => 'form.select',
                     'required' => true,
                     'label' => 'advert.rooms.label',
@@ -71,7 +92,7 @@ class AdvertType extends AbstractType
                     'data' => '100',
                 ))
                 ->add('floor', ChoiceType::class, array(
-                    'choices' => $advert->choicesFloor(),
+                    'choices' => Advert::choicesFloor(),
                     'placeholder' => 'form.select',
                     'required' => true,
                     'label' => 'advert.floor.label',
@@ -79,7 +100,7 @@ class AdvertType extends AbstractType
                     'data' => '1',
                 ))
                 ->add('totalFloor', ChoiceType::class, array(
-                    'choices' => $advert->choicesTotalFloor(),
+                    'choices' => Advert::choicesTotalFloor(),
                     'placeholder' => 'form.select',
                     'required' => true,
                     'label' => 'advert.totalFloor.label',
@@ -92,6 +113,9 @@ class AdvertType extends AbstractType
                     'allow_delete' => true,
                     'by_reference' => false,
         ));
+        if (false === $this->context->isGranted('ROLE_USER')) {
+            $builder->add('user', RegistrationFormType::class);
+        }
     }
 
     /**
@@ -100,8 +124,13 @@ class AdvertType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Advert'
+            'data_class' => 'AppBundle\Entity\Advert',
         ));
+    }
+
+    public function getName()
+    {
+        return 'advert_type';
     }
 
 }
