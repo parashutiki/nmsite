@@ -125,6 +125,8 @@ class AdvertType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Advert',
+            'cascade_validation' => true,
+            'validation_groups' => array('registration'),
         ));
     }
 

@@ -3,17 +3,14 @@
 namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Form;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use AppBundle\Entity\Advert;
 use AppBundle\Form\Type\AdvertType;
-use DocumentBundle\Entity\UnmanagedDocument;
-use AppBundle\Entity\AdvertDocument;
-use AppBundle\Entity\User;
 use AppBundle\Form\Handler\AdvertFormHandler;
-use Symfony\Component\Form\Form;
 
 /**
  * Advert controller.
@@ -139,15 +136,14 @@ class AdvertController extends Controller
      *
      * @param Advert $advert The Advert entity
      *
-     * @return \Symfony\Component\Form\Form The form
+     * @return Form Form
      */
     private function createDeleteForm(Advert $advert)
     {
         return $this->createFormBuilder()
                         ->setAction($this->generateUrl('advert_delete', array('id' => $advert->getId())))
                         ->setMethod('DELETE')
-                        ->getForm()
-        ;
+                        ->getForm();
     }
 
 }
