@@ -32,7 +32,7 @@ class AdvertController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $adverts = $em->getRepository('AppBundle:Advert')->findAll();
+        $adverts = $em->getRepository('AppBundle:Advert')->findAllOrdered();
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($adverts, $request->query->getInt('page', 1), 6);

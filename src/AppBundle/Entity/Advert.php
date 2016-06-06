@@ -1,7 +1,5 @@
 <?php
 
-// src/AppBundle/Entity/Advert.php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -11,6 +9,7 @@ use DocumentBundle\Entity\UnmanagedDocument;
 
 /**
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\AdvertRepository")
  * @ORM\Table(name="advert")
  * @ORM\HasLifecycleCallbacks()
  */

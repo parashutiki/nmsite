@@ -95,12 +95,12 @@
             {% endfor %}
                 TWIG.FineUploader.initialFiles = {{ initialFiles|json_encode()|raw }};
         {% endif %}
-        TWIG.Form = {};
-        TWIG.Form.addressId = "{{ form.children.address.vars.id }}";
-        TWIG.Form.coordsLatId = "{{ form.children.coordsLat.vars.id }}";
-        TWIG.Form.coordsLongId = "{{ form.children.coordsLong.vars.id }}";
-        TWIG.Form.coordsunmanagedDocumentsId = "{{ form.children.unmanagedDocuments.vars.id }}";
-        TWIG.Form.coordsunmanagedDocumentsFullName = "{{ form.children.unmanagedDocuments.vars.full_name }}";
+                    TWIG.Form = {};
+            TWIG.Form.addressId = "{{ form.children.address.vars.id }}";
+            TWIG.Form.coordsLatId = "{{ form.children.coordsLat.vars.id }}";
+            TWIG.Form.coordsLongId = "{{ form.children.coordsLong.vars.id }}";
+            TWIG.Form.coordsunmanagedDocumentsId = "{{ form.children.unmanagedDocuments.vars.id }}";
+            TWIG.Form.coordsunmanagedDocumentsFullName = "{{ form.children.unmanagedDocuments.vars.full_name }}";
     </script>
     {% javascripts
         '@fine_uploader_js'
@@ -117,7 +117,15 @@
 {% block body %}
     <div class="container">
         <div class="panel-group">
-            <div class="panel panel-info">
+            <div class="panel 
+                 {% spaceless %}
+                     {% if not form.vars.valid %}
+                         panel-danger
+                     {% else %}
+                         panel-default
+                     {% endif %}
+                 {% endspaceless %}
+                 ">
                 <div class="panel-heading">Advert creation</div>
                 <div class="panel-body">
                     {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
