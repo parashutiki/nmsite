@@ -4,6 +4,7 @@ namespace DocumentBundle\Entity;
 
 use DocumentBundle\Entity\Document as BaseDocument;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\File;
 
 class UnmanagedDocument extends BaseDocument
 {
@@ -52,6 +53,38 @@ class UnmanagedDocument extends BaseDocument
         }
 
         return $this->path;
+    }
+
+    /**
+     * Get file
+     *
+     * @return File
+     */
+    public function getFile()
+    {
+        if (null === $this->uuid || null !== $this->file) {
+            return $this->file;
+        }
+
+        $this->file = new File($this->getAbsolutePath());
+
+        return $this->file;
+    }
+
+    /**
+     * Get formated file for FineUploader initialFiles.
+     * @return type
+     */
+    public function getFineUploaderInitialFileFormat()
+    {
+        $file = array(
+            'uuid' => $this->uuid,
+            'name' => $this->uuid,
+            'size' => $this->getFile()->getSize(),
+            'thumbnailUrl' => $this->getWebPath(),
+        );
+
+        return (object) $file;
     }
 
     /**

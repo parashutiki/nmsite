@@ -23,8 +23,10 @@ abstract class Document
 
     /**
      * @Assert\File(maxSize="6000000")
+     *
+     * @var File
      */
-    private $file;
+    protected $file = null;
 
     /**
      * Get absolutePath
@@ -43,7 +45,7 @@ abstract class Document
      */
     public function getWebPath()
     {
-        return null === $this->getPath() ? null : $this->getUploadDir() . '/' . $this->getPath();
+        return null === $this->getPath() ? null : '/' . $this->getUploadDir() . '/' . $this->getPath();
     }
 
     /**

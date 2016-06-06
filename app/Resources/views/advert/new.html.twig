@@ -82,68 +82,42 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript" src='http://maps.google.com/maps/api/js?v=3&libraries=places&language={{ app.request.locale }}'></script>
+    <script>
+        var TWIG = {};
+        TWIG.FineUploader = {};
+        TWIG.FineUploader.deleteFileEndpoint = "{{ path('unmanagedDocument_delete') }}";
+        TWIG.FineUploader.requestEndpoint = "{{ oneup_uploader_endpoint('unmanaged') }}";
+        {% if form.vars.data is not null and form.vars.data.unmanagedDocuments is not empty %}
+            {% set initialFiles = [] %}
+            {% for unmanagedDocument in form.vars.data.unmanagedDocuments %}
+                {% set initialFile = unmanagedDocument.getFineUploaderInitialFileFormat() %}
+                {% set initialFiles = initialFiles|merge([initialFile]) %}
+            {% endfor %}
+                TWIG.FineUploader.initialFiles = {{ initialFiles|json_encode()|raw }};
+        {% endif %}
+        TWIG.Form = {};
+        TWIG.Form.addressId = "{{ form.children.address.vars.id }}";
+        TWIG.Form.coordsLatId = "{{ form.children.coordsLat.vars.id }}";
+        TWIG.Form.coordsLongId = "{{ form.children.coordsLong.vars.id }}";
+        TWIG.Form.coordsunmanagedDocumentsId = "{{ form.children.unmanagedDocuments.vars.id }}";
+        TWIG.Form.coordsunmanagedDocumentsFullName = "{{ form.children.unmanagedDocuments.vars.full_name }}";
+    </script>
     {% javascripts
         '@fine_uploader_js'
         '@location_picker_js'
+        '@advert_js'
     %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
     <script type="text/template" id="qq-template-s3">
         {{ block('qqTemplate') }}
     </script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var uploader = new qq.FineUploader({
-                template: 'qq-template-s3',
-                element: document.getElementById('advert_form_new_unmanagedDocuments_uploader'),
-                deleteFile: {
-                    enabled: true,
-                    endpoint: "{{ path('unmanagedDocument_delete') }}"
-                },
-                request: {
-                    endpoint: "{{ oneup_uploader_endpoint('unmanaged') }}"
-                },
-                callbacks: {
-                    onComplete: function (id, name, response) {
-                        var fileItem = this.getItemByFileId(id);
-                        if (response.success) {
-                            $(qq(fileItem).getByClass('advert-unmanagedDocument-uuid')[0])
-                                    .attr({
-                                        id: 'advert_form_new_unmanagedDocuments___name___uuid'.replace('__name__', id),
-                                        name: 'advert_form_new[unmanagedDocuments][__name__][uuid]'.replace('__name__', id),
-                                        value: this.getUuid(id)
-                                    });
-                        }
-                    }
-                }
-            });
-        });
-    </script>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#address_map').locationpicker({
-                location: {
-                    latitude: 49.84478853877884,
-                    longitude: 24.0261287689209
-                },
-                radius: 10,
-                enableAutocomplete: true,
-                scrollwheel: false,
-                inputBinding: {
-                    latitudeInput: $('#advert_coordsLat'),
-                    longitudeInput: $('#advert_coordsLong'),
-                    locationNameInput: $('#advert_address')
-                }
-            });
-        });
-    </script>
 {% endblock %}
 
 {% block body %}
     <div class="container">
         <div class="panel-group">
-            <div class="panel panel-success">
+            <div class="panel panel-info">
                 <div class="panel-heading">Advert creation</div>
                 <div class="panel-body">
                     {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}

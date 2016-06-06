@@ -80,13 +80,6 @@ assetic:
             node: /usr/bin/nodejs
             node_paths: [%kernel.root_dir%/../node_modules]
     assets:
-        main_css:
-            inputs:
-                - %kernel.root_dir%/../app/Resources/public/less/main.less
-                - %kernel.root_dir%/../app/Resources/public/less/fine-uploader.less
-            filters:
-                - less
-            output: css/main.css
         jquery_js:
             inputs:
                 - %kernel.root_dir%/../vendor/components/jquery/jquery.min.js
@@ -157,6 +150,17 @@ assetic:
             inputs:
                 - %kernel.root_dir%/../vendor/Logicify/jquery-locationpicker-plugin/src/locationpicker.jquery.js
             output: js/location-picker.js
+        advert_js:
+            inputs:
+                - %kernel.root_dir%/../app/Resources/public/js/advert.js
+            output: js/advert.js
+        main_css:
+            inputs:
+                - %kernel.root_dir%/../app/Resources/public/less/main.less
+                - %kernel.root_dir%/../app/Resources/public/less/fine-uploader.less
+            filters:
+                - less
+            output: css/main.css
 # FOS User bundle
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
