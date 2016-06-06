@@ -1,23 +1,26 @@
-{% extends 'base.html.twig' %}
+{% extends 'advert/new.html.twig' %}
 
-{% block body %}
-    <div class="container">
-        <h1>Advert edit</h1>
+{% block title %}
+    Advert edit
+{% endblock %}
 
-        {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input class="btn btn-success" type="submit" value="Update" />
-        {{ form_end(edit_form) }}
-
-        <ul>
-            <li>
-                <a href="{{ path('advert_index') }}">Back to the list</a>
-            </li>
-            <li>
-                {{ form_start(delete_form) }}
-                <input type="submit" class="btn btn-danger" value="Delete">
-                {{ form_end(delete_form) }}
-            </li>
-        </ul>
+{% block form_actions %}
+    <div class="form-group">
+        <div class="col-lg-offset-2 col-lg-10">
+            <input class="btn btn-success" type="submit" value="Update" />
+        </div>
     </div>
+{% endblock %}
+
+{% block other_actions %}
+    <ul>
+        <li>
+            <a href="{{ path('advert_index') }}">Back to the list</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+            <input type="submit" class="btn btn-danger" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
 {% endblock %}

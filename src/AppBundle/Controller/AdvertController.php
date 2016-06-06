@@ -86,26 +86,28 @@ class AdvertController extends Controller
      * Displays a form to edit an existing Advert entity.
      *
      * @Route("/{id}/edit", name="advert_edit")
-     * @Method({"GET", "POST"})
-     * @Security("has_role('ROLE_ADVERT_EDIT')")
+     * @Method({"GET", "PUT"})
+     * @Security("(has_role('ROLE_ADVERT_EDIT') && advert.isAuthor(user)) || has_role('ROLE_ADVERT_ADMIN')")
      */
-    public function editAction(Request $request, Advert $advert)
+    public function editAction(Advert $advert)
     {
+        /* @var $form Form */
+        $form = $this->container->get('app.form.advert.edit');
+        $form->setData($advert);
+        /* @var $formHandler AdvertFormHandler */
+        $formHandler = $this->container->get('app.form.advert.edit.handler');
+
         $deleteForm = $this->createDeleteForm($advert);
-        $editForm = $this->createForm(AdvertType::class, $advert);
-        $editForm->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($advert);
-            $em->flush();
-
-            return $this->redirectToRoute('advert_edit', array('id' => $advert->getId()));
+        if ($formHandler->process()) {
+            $advert = $form->getData();
+            return $this->redirectToRoute('advert_show', array(
+                        'id' => $advert->getId(),
+            ));
         }
 
         return $this->render('advert/edit.html.twig', array(
-                    'advert' => $advert,
-                    'edit_form' => $editForm->createView(),
+                    'form' => $form->createView(),
                     'delete_form' => $deleteForm->createView(),
         ));
     }

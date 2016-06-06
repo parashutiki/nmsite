@@ -4,7 +4,6 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-
 use DocumentBundle\Entity\UnmanagedDocument;
 
 /**
@@ -575,6 +574,16 @@ class Advert
     public function removeUnmanagedDocument(UnmanagedDocument $unmanagedDocument)
     {
         $this->unmanagedDocuments->removeElement($unmanagedDocument);
+    }
+
+    /**
+     * Is the given User the author of this Post?
+     *
+     * @return bool
+     */
+    public function isAuthor(User $user = null)
+    {
+        return $user && $user->getId() == $this->getUser()->getId();
     }
 
 }

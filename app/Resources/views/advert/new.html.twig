@@ -114,10 +114,96 @@
     </script>
 {% endblock %}
 
+{% block form_name %}
+    {{ form_row(form.name) }}
+{% endblock %}
+
+{% block form_description %}
+    {{ form_row(form.description) }}
+{% endblock %}
+
+{% block form_unmanagedDocuments %}
+    <div class="form-group{% if (not form.unmanagedDocuments.vars.compound or force_error|default(false)) and not form.unmanagedDocuments.vars.valid %} has-error{% endif %}">
+        {{- form_label(form.unmanagedDocuments) -}}
+        <div class="col-sm-10">
+            <div id="advert_form_new_unmanagedDocuments_uploader"></div>
+            {{- form_widget(form.unmanagedDocuments) -}}
+            {{- form_errors(form.unmanagedDocuments) -}}
+        </div>
+    </div>
+{% endblock %}
+
+{% block form_rentType %}
+    {{ form_row(form.rentType) }}
+{% endblock %}
+
+{% block form_price %}
+    {{ form_row(form.price, {'money_pattern': '{{ widget }} ' ~ 'form.currency'|trans({},'form')}) }}
+{% endblock %}
+
+{% block form_rooms %}
+    {{ form_row(form.rooms) }}
+{% endblock %}
+
+{% block form_square %}
+    {{ form_row(form.square, {'suffix': 'M', 'suffix_sup': '2' }) }}
+{% endblock %}
+
+{% block form_floor %}
+    {{ form_row(form.floor) }}
+{% endblock %}
+
+{% block form_totalFloor %}
+    {{ form_row(form.totalFloor) }}
+{% endblock %}
+
+{% block form_address %}
+    <div class="form-group{% if (not form.address.vars.compound or force_error|default(false)) and not form.address.vars.valid %} has-error{% endif %}">
+        {{- form_label(form.address) -}}
+        <div class="col-sm-10">
+            {{- form_widget(form.address) -}}
+            {{- form_errors(form.address) -}}
+            <div id="address_map"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block form_coordsLat %}
+    {{ form_row(form.coordsLat) }}
+{% endblock %}
+
+{% block form_coordsLong %}
+    {{ form_row(form.coordsLong) }}
+{% endblock %}
+
+{% block form_user %}
+    {% if not app.user %}
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <h3 class="col-sm-2 control-label">User account</h3>
+                </div>
+            </div>
+        </div>
+        {{ form_widget(form.user) }}
+    {% endif %}
+{% endblock %}
+
+{% block form_actions %}
+    <div class="form-group">
+        <div class="col-lg-offset-2 col-lg-10">
+            <input class="btn btn-success" type="submit" value="Create" />
+        </div>
+    </div>
+{% endblock %}
+
+{% block other_actions %}
+{% endblock %}
+
 {% block body %}
     <div class="container">
         <div class="panel-group">
-            <div class="panel 
+            <div class="panel
                  {% spaceless %}
                      {% if not form.vars.valid %}
                          panel-danger
@@ -126,66 +212,40 @@
                      {% endif %}
                  {% endspaceless %}
                  ">
-                <div class="panel-heading">Advert creation</div>
+                <div class="panel-heading">{{ block('title') }}</div>
                 <div class="panel-body">
                     {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
                     {{ form_start(form) }}
 
-                    {{ form_row(form.name) }}
-                    {{ form_row(form.description) }}
-
-                    <div class="form-group{% if (not form.unmanagedDocuments.vars.compound or force_error|default(false)) and not form.unmanagedDocuments.vars.valid %} has-error{% endif %}">
-                        {{- form_label(form.unmanagedDocuments) -}}
-                        <div class="col-sm-10">
-                            <div id="advert_form_new_unmanagedDocuments_uploader"></div>
-                            {{- form_widget(form.unmanagedDocuments) -}}
-                            {{- form_errors(form.unmanagedDocuments) -}}
-                        </div>
-                    </div>
+                    {{ block('form_name') }}
+                    {{ block('form_description') }}
+                    {{ block('form_unmanagedDocuments') }}
 
                     {% form_theme form 'form/bootstrap_3_horizontal_layout_two_cols.html.twig' %}
                     <div class="row">
-                        {{ form_row(form.rentType) }}
-                        {{ form_row(form.price, {'money_pattern': '{{ widget }} ' ~ 'form.currency'|trans({},'form')}) }}
+                        {{ block('form_rentType') }}
+                        {{ block('form_price') }}
                     </div>
                     <div class="row">
-                        {{ form_row(form.rooms) }}
-                        {{ form_row(form.square, {'suffix': 'M', 'suffix_sup': '2' }) }}
+                        {{ block('form_rooms') }}
+                        {{ block('form_square') }}
                     </div>
                     <div class="row">
-                        {{ form_row(form.floor) }}
-                        {{ form_row(form.totalFloor) }}
+                        {{ block('form_floor') }}
+                        {{ block('form_totalFloor') }}
                     </div>
                     {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
 
-                    <div class="form-group{% if (not form.address.vars.compound or force_error|default(false)) and not form.address.vars.valid %} has-error{% endif %}">
-                        {{- form_label(form.address) -}}
-                        <div class="col-sm-10">
-                            {{- form_widget(form.address) -}}
-                            {{- form_errors(form.address) -}}
-                            <div id="address_map"></div>
-                        </div>
-                    </div>
+                    {{ block('form_address') }}
+                    {{ block('form_coordsLat') }}
+                    {{ block('form_coordsLong') }}
+                    {{ block('form_user') }}
 
-                    {{ form_widget(form.coordsLat) }}
-                    {{ form_widget(form.coordsLong) }}
+                    {{ block('form_actions') }}
 
-                    {% if not app.user %}
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="form-group">
-                                    <h3 class="col-sm-2 control-label">User account</h3>
-                                </div>
-                            </div>
-                        </div>
-                        {{ form_widget(form.user) }}
-                    {% endif %}
-                    <div class="form-group">
-                        <div class="col-lg-offset-2 col-lg-10">
-                            <input class="btn btn-success" type="submit" value="Create" />
-                        </div>
-                    </div>
                     {{ form_end(form) }}
+
+                    {{ block('other_actions') }}
                 </div>
             </div>
         </div>

@@ -69,6 +69,8 @@ class AdvertFormHandler
 
         if ($this->request->getMethod() == 'POST') {
             return $this->processNew();
+        } elseif ($this->request->getMethod() == 'PUT') {
+            return $this->processEdit();
         }
 
         return false;
@@ -108,6 +110,18 @@ class AdvertFormHandler
         $this->em->flush();
 
         return true;
+    }
+
+    /**
+     * Process edit.
+     *
+     * @return boolean Status
+     */
+    private function processEdit()
+    {
+        if (!$this->form->isSubmitted() || !$this->form->isValid()) {
+            return false;
+        }
     }
 
 }

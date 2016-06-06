@@ -43,8 +43,24 @@ services:
         arguments:
             - advert_form_new
             - advert_type
+            - null
+            - { method: POST }
 
     app.form.advert.new.handler:
         class: AppBundle\Form\Handler\AdvertFormHandler
         scope: request
         arguments: ["@app.form.advert.new", "@request", "@doctrine.orm.entity_manager", "@security.context", "@app.entity.advert"]
+
+    app.form.advert.edit:
+        class: Symfony\Component\Form\Form
+        factory: ["@form.factory", createNamed]
+        arguments:
+            - advert_form_edit
+            - advert_type
+            - null
+            - { method: PUT }
+
+    app.form.advert.edit.handler:
+        class: AppBundle\Form\Handler\AdvertFormHandler
+        scope: request
+        arguments: ["@app.form.advert.edit", "@request", "@doctrine.orm.entity_manager", "@security.context", "@app.entity.advert"]

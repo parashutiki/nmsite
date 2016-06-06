@@ -50,7 +50,7 @@ class AdvertType extends AbstractType
                     'label' => 'advert.name.label',
                     'required' => true,
                     'translation_domain' => 'form',
-                    'data' => 'TEST TITLE',
+//                    'data' => 'TEST TITLE',
                 ))
                 ->add('price', MoneyType::class, array(
                     'label' => 'advert.price.label',
@@ -58,10 +58,10 @@ class AdvertType extends AbstractType
                     'scale' => 0,
                     'required' => true,
                     'translation_domain' => 'form',
-                    'data' => '100',
+//                    'data' => '100',
                 ))
                 ->add('description', TextareaType::class, array(
-                    'data' => 'TEST DESCRIPTION',
+//                    'data' => 'TEST DESCRIPTION',
                 ))
                 ->add('rentType', ChoiceType::class, array(
                     'choices' => Advert::choicesRentType(),
@@ -69,7 +69,7 @@ class AdvertType extends AbstractType
                     'required' => true,
                     'label' => 'advert.rentType.label',
                     'translation_domain' => 'form',
-                    'data' => 'advert.rentType.option.hourly',
+//                    'data' => 'advert.rentType.option.hourly',
                 ))
                 ->add('rooms', ChoiceType::class, array(
                     'choices' => Advert::choicesRooms(),
@@ -77,19 +77,19 @@ class AdvertType extends AbstractType
                     'required' => true,
                     'label' => 'advert.rooms.label',
                     'translation_domain' => 'form',
-                    'data' => '2',
+//                    'data' => '2',
                 ))
                 ->add('square', NumberType::class, array(
-                    'data' => '100',
+//                    'data' => '100',
                 ))
                 ->add('address', TextType::class, array(
-                    'data' => 'TEST ADDRESS',
+//                    'data' => 'TEST ADDRESS',
                 ))
                 ->add('coordsLat', HiddenType::class, array(
-                    'data' => '100',
+//                    'data' => '100',
                 ))
                 ->add('coordsLong', HiddenType::class, array(
-                    'data' => '100',
+//                    'data' => '100',
                 ))
                 ->add('floor', ChoiceType::class, array(
                     'choices' => Advert::choicesFloor(),
@@ -97,7 +97,7 @@ class AdvertType extends AbstractType
                     'required' => true,
                     'label' => 'advert.floor.label',
                     'translation_domain' => 'form',
-                    'data' => '1',
+//                    'data' => '1',
                 ))
                 ->add('totalFloor', ChoiceType::class, array(
                     'choices' => Advert::choicesTotalFloor(),
@@ -105,7 +105,7 @@ class AdvertType extends AbstractType
                     'required' => true,
                     'label' => 'advert.totalFloor.label',
                     'translation_domain' => 'form',
-                    'data' => '1',
+//                    'data' => '1',
                 ))
                 ->add('unmanagedDocuments', CollectionType::class, array(
                     'entry_type' => UnmanagedDocumentType::class,
