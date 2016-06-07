@@ -4,8 +4,16 @@ form:
 advert:
     name:
         label: Title
+    description:
+        label: Description
     price:
         label: Price
+    square:
+        label: Square
+    unmanagedDocuments:
+        label: Pictures
+    address:
+        label: Address
     rentType:
         label: Rent type
         option:
@@ -14,7 +22,48 @@ advert:
             long-term: Long-term
     rooms:
         label: Rooms
+        option:
+            1: 1
+            2: 2
+            3: 3
+            4: 4
+            5: 5
     floor:
         label: Floor
+        option:
+            under: Under
+            1: 1
+            2: 2
+            3: 3
+            4: 4
+            5: 5
+            6: 6
+            7: 7
+            8: 8
+            9: 9
+            10: 10
+            11: 11
+            12: 12
+            13: 13
+            14: 14
+            15: 15
+            16: 16
     totalFloor:
         label: Total floors
+        option:
+            1: 1
+            2: 2
+            3: 3
+            4: 4
+            5: 5
+            6: 6
+            7: 7
+            8: 8
+            9: 9
+            10: 10
+            11: 11
+            12: 12
+            13: 13
+            14: 14
+            15: 15
+            16: 16

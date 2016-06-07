@@ -14,6 +14,20 @@ class UserDocument extends BaseDocument
 {
 
     /**
+     * Unique id.
+     * @ORM\Id
+     * @ORM\Column(type="string", length=36, nullable=false)
+     * @var string
+     */
+    public $uuid = null;
+
+    /**
+     * @ORM\Column(type="string", length=4, nullable=false)
+     * @var string
+     */
+    public $ext;
+
+    /**
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\User", inversedBy="user_document")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
@@ -26,8 +40,6 @@ class UserDocument extends BaseDocument
      */
     protected function getUploadDir()
     {
-        // get rid of the __DIR__ so it doesn't screw up
-        // when displaying uploaded doc/image in the view.
         return 'uploads/document/user';
     }
 

@@ -2,7 +2,6 @@
 
 namespace DocumentBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -10,14 +9,7 @@ abstract class Document
 {
 
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    public $id;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @var string
      */
     protected $path;
 
@@ -49,14 +41,15 @@ abstract class Document
     }
 
     /**
-     * Get uploadRootDir
+     * Get uploadRootDir.
+     *
+     * The absolute directory path where uploaded
+     * documents should be saved.
      *
      * @return string
      */
     protected function getUploadRootDir()
     {
-        // the absolute directory path where uploaded
-        // documents should be saved
         return __DIR__ . '/../../../web/' . $this->getUploadDir();
     }
 

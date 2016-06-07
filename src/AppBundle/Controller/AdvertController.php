@@ -9,7 +9,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use AppBundle\Entity\Advert;
-use AppBundle\Form\Type\AdvertType;
 use AppBundle\Form\Handler\AdvertFormHandler;
 
 /**
@@ -32,7 +31,7 @@ class AdvertController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $adverts = $em->getRepository('AppBundle:Advert')->findAllOrdered();
+        $adverts = $em->getRepository('AppBundle:Advert')->findAll();
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($adverts, $request->query->getInt('page', 1), 6);
@@ -68,7 +67,7 @@ class AdvertController extends Controller
     /**
      * Finds and displays a Advert entity.
      *
-     * @Route("/{id}", name="advert_show")
+     * @Route("/{id}", name="advert_show", requirements={"id": "\d+"})
      * @Method("GET")
      * @Security("has_role('ROLE_ADVERT_SHOW')")
      */
@@ -85,7 +84,7 @@ class AdvertController extends Controller
     /**
      * Displays a form to edit an existing Advert entity.
      *
-     * @Route("/{id}/edit", name="advert_edit")
+     * @Route("/{id}/edit", name="advert_edit", requirements={"id": "\d+"})
      * @Method({"GET", "PUT"})
      * @Security("(has_role('ROLE_ADVERT_EDIT') && advert.isAuthor(user)) || has_role('ROLE_ADVERT_ADMIN')")
      */
@@ -115,7 +114,7 @@ class AdvertController extends Controller
     /**
      * Deletes a Advert entity.
      *
-     * @Route("/{id}", name="advert_delete")
+     * @Route("/{id}", name="advert_delete", requirements={"id": "\d+"})
      * @Method("DELETE")
      * @Security("has_role('ROLE_ADVERT_DELETE')")
      */

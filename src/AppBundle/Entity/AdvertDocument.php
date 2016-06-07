@@ -6,7 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use DocumentBundle\Entity\Document as BaseDocument;
 use AppBundle\Entity\Advert;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\File;
 use DocumentBundle\Entity\UnmanagedDocument;
+use AppBundle\Entity\User;
 
 /**
  * @ORM\Entity
@@ -17,10 +19,24 @@ class AdvertDocument extends BaseDocument
 {
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Advert", inversedBy="advert_document")
+     * Unique id.
+     * @ORM\Id
+     * @ORM\Column(type="string", length=36, nullable=false)
+     * @var string
+     */
+    public $uuid = null;
+
+    /**
+     * @ORM\Column(type="string", length=4, nullable=false)
+     * @var string
+     */
+    public $ext;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Advert", inversedBy="advertDocuments")
      * @ORM\JoinColumn(name="advert_id", referencedColumnName="id")
      */
-    protected $advert;
+    private $advert;
 
     /**
      * Unmanaged document
@@ -90,7 +106,7 @@ class AdvertDocument extends BaseDocument
         }
 
         $fs = new Filesystem();
-        $this->path = $this->unmanagedDocument->getPath();
+        $this->setPath($this->unmanagedDocument->getPath());
         $fs->rename($this->unmanagedDocument->getAbsolutePath(), $this->getAbsolutePath());
         $this->unmanagedDocument->setPath(null);
 
@@ -105,6 +121,57 @@ class AdvertDocument extends BaseDocument
     protected function getUploadDir()
     {
         return 'uploads/document/advert';
+    }
+
+    /**
+     * Gets path
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        if (null == $this->uuid || null == $this->ext) {
+            return null;
+        }
+        return $this->uuid . '.' . $this->ext;
+    }
+
+    /**
+     * Sets path
+     * @param string $path
+     */
+    public function setPath($path)
+    {
+        $arrPath = explode('.', $path);
+        $this->uuid = (string) $arrPath[0];
+        $this->ext = (string) $arrPath[1];
+    }
+
+    /**
+     * Get file
+     *
+     * @return File
+     */
+    public function getFile()
+    {
+        if (null !== $this->file) {
+            return $this->file;
+        }
+
+        $this->file = new File($this->getAbsolutePath());
+
+        return $this->file;
+    }
+
+    /**
+     * Validate if user is owner.
+     *
+     * @param User $user
+     * @return boolean
+     */
+    public function isAuthor(User $user)
+    {
+        return $user && $user->getId() == $this->getAdvert()->getUser()->getId();
     }
 
 }

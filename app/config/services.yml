@@ -11,14 +11,14 @@ services:
     app.main_menu:
         class: Knp\Menu\MenuItem
         factory: ["@app.menu_builder", createMainMenu]
-        scope: request
+        shared: false
         tags:
             - { name: knp_menu.menu, alias: main }
 
     app.user_menu:
         class: Knp\Menu\MenuItem
         factory: ["@app.menu_builder", createUserMenu]
-        scope: request
+        shared: false
         tags:
             - { name: knp_menu.menu, alias: user }
 
@@ -33,16 +33,16 @@ services:
 
     app.form.type.advert:
         class: AppBundle\Form\Type\AdvertType
-        arguments: ["@security.context"]
+        arguments: ["@security.authorization_checker"]
         tags:
-            - { name: form.type, alias: advert_type }
+            - { name: form.type }
 
     app.form.advert.new:
         class: Symfony\Component\Form\Form
         factory: ["@form.factory", createNamed]
         arguments:
             - advert_form_new
-            - advert_type
+            - "@app.form.type.advert"
             - null
             - { method: POST }
 
@@ -56,7 +56,7 @@ services:
         factory: ["@form.factory", createNamed]
         arguments:
             - advert_form_edit
-            - advert_type
+            - "@app.form.type.advert"
             - null
             - { method: PUT }
 

@@ -12,9 +12,26 @@ class AdvertRepository extends EntityRepository
      *
      * @return array
      */
-    public function findAllOrdered()
+    public function findAll()
     {
         return $this->findBy(array(), array('id' => 'DESC'));
+    }
+
+    /**
+     * With documents.
+     *
+     * @return array
+     */
+    public function find($id)
+    {
+        $query = $this->createQueryBuilder('a')
+                ->select('a', 'ad')
+                ->leftJoin('a.advertDocuments', 'ad')
+                ->where('a.id = :parameter')
+                ->setParameter('parameter', $id)
+                ->getQuery();
+
+        return $query->getSingleResult();
     }
 
 }

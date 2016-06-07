@@ -5,6 +5,8 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use DocumentBundle\Entity\UnmanagedDocument;
+use AppBundle\Entity\AdvertDocument;
+use AppBundle\Entity\User;
 
 /**
  * @ORM\Entity
@@ -88,8 +90,9 @@ class Advert
     private $updatedAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="advert")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="adverts")
      * @ORM\JoinColumn(name="user_id", nullable=false, referencedColumnName="id")
+     * @var User
      */
     private $user;
 
@@ -100,11 +103,19 @@ class Advert
     protected $unmanagedDocuments;
 
     /**
+     * Advert Documents
+     * @var ArrayCollection
+     * @ORM\OneToMany (targetEntity="AdvertDocument", mappedBy="advert")
+     */
+    private $advertDocuments;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->unmanagedDocuments = new ArrayCollection();
+        $this->advertDocuments = new ArrayCollection();
     }
 
     /**
@@ -225,7 +236,7 @@ class Advert
             'advert.rentType.option.daily',
             'advert.rentType.option.long-term',
         ];
-        return array_combine($options, $options);
+        return $options;
     }
 
     /**
@@ -259,14 +270,11 @@ class Advert
      */
     public static function choicesRooms()
     {
-        $options = [
-            1,
-            2,
-            3,
-            4,
-            5,
-        ];
-        return array_combine($options, $options);
+        $options = [];
+        for ($i = 1; $i < 6; $i++) {
+            $options[$i] = 'advert.rooms.option.' . $i;
+        }
+        return $options;
     }
 
     /**
@@ -396,25 +404,11 @@ class Advert
      */
     public static function choicesFloor()
     {
-        $options = [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-        ];
-        return array(-1 => 'Under') + array_combine($options, $options);
+        $options = [];
+        for ($i = 1; $i < 17; $i++) {
+            $options[$i] = 'advert.floor.option.' . $i;
+        }
+        return array(-1 => 'advert.floor.option.under') + $options;
     }
 
     /**
@@ -448,25 +442,11 @@ class Advert
      */
     public static function choicesTotalFloor()
     {
-        $options = [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-        ];
-        return array_combine($options, $options);
+        $options = [];
+        for ($i = 1; $i < 17; $i++) {
+            $options[$i] = 'advert.totalFloor.option.' . $i;
+        }
+        return $options;
     }
 
     /**
@@ -513,11 +493,11 @@ class Advert
     /**
      * Set user
      *
-     * @param \AppBundle\Entity\User $user
+     * @param User $user
      *
      * @return Advert
      */
-    public function setUser(\AppBundle\Entity\User $user)
+    public function setUser(User $user)
     {
         $this->user = $user;
 
@@ -527,7 +507,7 @@ class Advert
     /**
      * Get user
      *
-     * @return \AppBundle\Entity\User
+     * @return User
      */
     public function getUser()
     {
@@ -577,9 +557,52 @@ class Advert
     }
 
     /**
-     * Is the given User the author of this Post?
+     * Set advertDocuments
      *
-     * @return bool
+     * @param ArrayCollection $advertDocuments
+     */
+    public function setAdvertDocuments(ArrayCollection $advertDocuments)
+    {
+        $this->advertDocuments = $advertDocuments;
+
+        return $this;
+    }
+
+    /**
+     * Get advertDocuments
+     *
+     * @return ArrayCollection
+     */
+    public function getAdvertDocuments()
+    {
+        return $this->advertDocuments;
+    }
+
+    /**
+     * Add advertDocument
+     *
+     * @param AdvertDocument $advertDocument
+     */
+    public function addAdvertDocument(AdvertDocument $advertDocument)
+    {
+        $this->advertDocuments->add($advertDocument);
+    }
+
+    /**
+     * Remove advertDocument
+     *
+     * @param AdvertDocument $advertDocument
+     */
+    public function removeAdvertDocument(AdvertDocument $advertDocument)
+    {
+        $this->advertDocuments->removeElement($advertDocument);
+    }
+
+    /**
+     * Is the given User the author of this entity.
+     *
+     * @param User $user
+     * @return boolean
      */
     public function isAuthor(User $user = null)
     {

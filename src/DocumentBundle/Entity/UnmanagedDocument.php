@@ -22,8 +22,6 @@ class UnmanagedDocument extends BaseDocument
      */
     protected function getUploadDir()
     {
-        // get rid of the __DIR__ so it doesn't screw up
-        // when displaying uploaded doc/image in the view.
         return 'uploads/unmanaged';
     }
 
@@ -69,22 +67,6 @@ class UnmanagedDocument extends BaseDocument
         $this->file = new File($this->getAbsolutePath());
 
         return $this->file;
-    }
-
-    /**
-     * Get formated file for FineUploader initialFiles.
-     * @return type
-     */
-    public function getFineUploaderInitialFileFormat()
-    {
-        $file = array(
-            'uuid' => $this->uuid,
-            'name' => $this->uuid,
-            'size' => $this->getFile()->getSize(),
-            'thumbnailUrl' => $this->getWebPath(),
-        );
-
-        return (object) $file;
     }
 
     /**

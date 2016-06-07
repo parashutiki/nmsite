@@ -79,6 +79,24 @@
 </div>
 {% endblock %}
 
+{% block fineUploader_initialFiles %}
+    {% if form.vars.data is not null and form.vars.data.unmanagedDocuments is not empty %}
+        {% set initialFiles = [] %}
+        {% for unmanagedDocument in form.vars.data.unmanagedDocuments %}
+            {% set initialFile = {
+             'uuid': unmanagedDocument.uuid,
+             'name': unmanagedDocument.getPath(),
+             'size' : unmanagedDocument.getFile().getSize(),
+             'thumbnailUrl': unmanagedDocument.getWebPath()
+            } %}
+            {% set initialFiles = initialFiles|merge([initialFile]) %}
+        {% endfor %}
+        <script>
+            TWIG.FineUploader.initialFiles = {{ initialFiles|json_encode()|raw }};
+        </script>
+    {% endif %}
+{% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript" src='http://maps.google.com/maps/api/js?v=3&libraries=places&language={{ app.request.locale }}'></script>
@@ -87,21 +105,14 @@
         TWIG.FineUploader = {};
         TWIG.FineUploader.deleteFileEndpoint = "{{ path('unmanagedDocument_delete') }}";
         TWIG.FineUploader.requestEndpoint = "{{ oneup_uploader_endpoint('unmanaged') }}";
-        {% if form.vars.data is not null and form.vars.data.unmanagedDocuments is not empty %}
-            {% set initialFiles = [] %}
-            {% for unmanagedDocument in form.vars.data.unmanagedDocuments %}
-                {% set initialFile = unmanagedDocument.getFineUploaderInitialFileFormat() %}
-                {% set initialFiles = initialFiles|merge([initialFile]) %}
-            {% endfor %}
-                TWIG.FineUploader.initialFiles = {{ initialFiles|json_encode()|raw }};
-        {% endif %}
-                    TWIG.Form = {};
-            TWIG.Form.addressId = "{{ form.children.address.vars.id }}";
-            TWIG.Form.coordsLatId = "{{ form.children.coordsLat.vars.id }}";
-            TWIG.Form.coordsLongId = "{{ form.children.coordsLong.vars.id }}";
-            TWIG.Form.coordsunmanagedDocumentsId = "{{ form.children.unmanagedDocuments.vars.id }}";
-            TWIG.Form.coordsunmanagedDocumentsFullName = "{{ form.children.unmanagedDocuments.vars.full_name }}";
+        TWIG.Form = {};
+        TWIG.Form.addressId = "{{ form.children.address.vars.id }}";
+        TWIG.Form.coordsLatId = "{{ form.children.coordsLat.vars.id }}";
+        TWIG.Form.coordsLongId = "{{ form.children.coordsLong.vars.id }}";
+        TWIG.Form.unmanagedDocumentsId = "{{ form.children.unmanagedDocuments.vars.id }}";
+        TWIG.Form.unmanagedDocumentsFullName = "{{ form.children.unmanagedDocuments.vars.full_name }}";
     </script>
+    {{ block('fineUploader_initialFiles') }}
     {% javascripts
         '@fine_uploader_js'
         '@location_picker_js'
@@ -122,7 +133,7 @@
     {{ form_row(form.description) }}
 {% endblock %}
 
-{% block form_unmanagedDocuments %}
+{% block form_documents %}
     <div class="form-group{% if (not form.unmanagedDocuments.vars.compound or force_error|default(false)) and not form.unmanagedDocuments.vars.valid %} has-error{% endif %}">
         {{- form_label(form.unmanagedDocuments) -}}
         <div class="col-sm-10">
@@ -219,7 +230,7 @@
 
                     {{ block('form_name') }}
                     {{ block('form_description') }}
-                    {{ block('form_unmanagedDocuments') }}
+                    {{ block('form_documents') }}
 
                     {% form_theme form 'form/bootstrap_3_horizontal_layout_two_cols.html.twig' %}
                     <div class="row">

@@ -2,7 +2,7 @@
 
 namespace AppBundle\Form\Type;
 
-use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -13,9 +13,11 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Valid;
 use DocumentBundle\Form\Type\UnmanagedDocumentType;
 use FOS\UserBundle\Form\Type\RegistrationFormType;
 use AppBundle\Entity\Advert;
+use AppBundle\Form\Type\AdvertDocumentType;
 
 /**
  * Advert type.
@@ -24,20 +26,20 @@ class AdvertType extends AbstractType
 {
 
     /**
-     * Security Context
+     * Authorization Checker
      *
-     * @var SecurityContext
+     * @var AuthorizationChecker
      */
-    private $context;
+    private $authorizationChecker;
 
     /**
      * Constructor.
      *
-     * @param SecurityContext $context Context
+     * @param AuthorizationChecker $authorizationChecker Authorization Checker
      */
-    public function __construct(SecurityContext $context)
+    public function __construct(AuthorizationChecker $authorizationChecker)
     {
-        $this->context = $context;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     /**
@@ -61,6 +63,8 @@ class AdvertType extends AbstractType
 //                    'data' => '100',
                 ))
                 ->add('description', TextareaType::class, array(
+                    'label' => 'advert.description.label',
+                    'translation_domain' => 'form',
 //                    'data' => 'TEST DESCRIPTION',
                 ))
                 ->add('rentType', ChoiceType::class, array(
@@ -69,7 +73,7 @@ class AdvertType extends AbstractType
                     'required' => true,
                     'label' => 'advert.rentType.label',
                     'translation_domain' => 'form',
-//                    'data' => 'advert.rentType.option.hourly',
+//                    'data' => '1',
                 ))
                 ->add('rooms', ChoiceType::class, array(
                     'choices' => Advert::choicesRooms(),
@@ -80,15 +84,21 @@ class AdvertType extends AbstractType
 //                    'data' => '2',
                 ))
                 ->add('square', NumberType::class, array(
+                    'label' => 'advert.square.label',
+                    'translation_domain' => 'form',
 //                    'data' => '100',
                 ))
                 ->add('address', TextType::class, array(
+                    'label' => 'advert.address.label',
+                    'translation_domain' => 'form',
 //                    'data' => 'TEST ADDRESS',
                 ))
                 ->add('coordsLat', HiddenType::class, array(
+                    'label' => false,
 //                    'data' => '100',
                 ))
                 ->add('coordsLong', HiddenType::class, array(
+                    'label' => false,
 //                    'data' => '100',
                 ))
                 ->add('floor', ChoiceType::class, array(
@@ -108,13 +118,29 @@ class AdvertType extends AbstractType
 //                    'data' => '1',
                 ))
                 ->add('unmanagedDocuments', CollectionType::class, array(
+                    'label' => 'advert.unmanagedDocuments.label',
+                    'translation_domain' => 'form',
                     'entry_type' => UnmanagedDocumentType::class,
+                    'prototype' => false,
                     'allow_add' => true,
                     'allow_delete' => true,
                     'by_reference' => false,
         ));
-        if (false === $this->context->isGranted('ROLE_USER')) {
-            $builder->add('user', RegistrationFormType::class);
+        if ('PUT' == $options['method']) {
+            $builder->add('advertDocuments', CollectionType::class, array(
+                'label' => false,
+                'entry_type' => AdvertDocumentType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+            ));
+        }
+        if (false === $this->authorizationChecker->isGranted('ROLE_USER')) {
+            $builder->add('user', RegistrationFormType::class, array(
+                'constraints' => array(
+                    new Valid(),
+                ),
+            ));
         }
     }
 
@@ -125,14 +151,8 @@ class AdvertType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Advert',
-            'cascade_validation' => true,
             'validation_groups' => array('registration'),
         ));
-    }
-
-    public function getName()
-    {
-        return 'advert_type';
     }
 
 }

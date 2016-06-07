@@ -4,6 +4,37 @@
     Advert edit
 {% endblock %}
 
+{% block fineUploader_initialFiles %}
+    {% if form.vars.data is not null and form.vars.data.advertDocuments is not empty %}
+        {% set initialFiles = [] %}
+        {% for advertDocument in form.vars.data.advertDocuments %}
+            {% set initialFile = {
+             'uuid': advertDocument.uuid,
+             'name': advertDocument.getPath(),
+             'size' : advertDocument.getFile().getSize(),
+             'thumbnailUrl': advertDocument.getWebPath(),
+             'deleteFileEndpoint' : path('advertDocument_delete')
+            } %}
+            {% set initialFiles = initialFiles|merge([initialFile]) %}
+        {% endfor %}
+        <script>
+            TWIG.FineUploader.initialFiles = {{ initialFiles|json_encode()|raw }};
+        </script>
+    {% endif %}
+{% endblock %}
+
+{% block form_documents %}
+    {% do form.advertDocuments.setRendered %}
+    <div class="form-group{% if (not form.unmanagedDocuments.vars.compound or force_error|default(false)) and not form.unmanagedDocuments.vars.valid %} has-error{% endif %}">
+        {{- form_label(form.unmanagedDocuments) -}}
+        <div class="col-sm-10">
+            <div id="advert_form_new_unmanagedDocuments_uploader"></div>
+            {{- form_widget(form.unmanagedDocuments) -}}
+            {{- form_errors(form.unmanagedDocuments) -}}
+        </div>
+    </div>
+{% endblock %}
+
 {% block form_actions %}
     <div class="form-group">
         <div class="col-lg-offset-2 col-lg-10">

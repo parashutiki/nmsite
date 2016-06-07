@@ -21,8 +21,8 @@ $(document).ready(function () {
                 if (response.success) {
                     $(qq(fileItem).getByClass('advert-unmanagedDocument-uuid')[0])
                             .attr({
-                                id: TWIG.Form.coordsunmanagedDocumentsId + '___name___uuid'.replace('__name__', id),
-                                name: TWIG.Form.coordsunmanagedDocumentsFullName + '[__name__][uuid]'.replace('__name__', id),
+                                id: TWIG.Form.unmanagedDocumentsId + '___name___uuid'.replace('__name__', id),
+                                name: TWIG.Form.unmanagedDocumentsFullName + '[__name__][uuid]'.replace('__name__', id),
                                 value: this.getUuid(id)
                             });
                 }
