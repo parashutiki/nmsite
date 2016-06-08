@@ -15,6 +15,7 @@
                             <h3>#{{ advert.id }} - {{ advert.name }}</h3>
                             <p>Price: {{ advert.price }} {{ 'form.currency'|trans({},'form') }}</p>
                             <p>Description: {{ advert.description }}</p>
+                            <p>Author: {{ advert.user.username }}</p>
                             <p>
                                 <a href="{{ path("advert_edit", { 'id': advert.id }) }}" class="btn btn-success" role="button">Edit</a>
                             </p>
