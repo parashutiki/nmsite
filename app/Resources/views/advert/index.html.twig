@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="container">
-        <h1>Advert list <span class="badge">{{ pagination.getTotalItemCount }}</span> <a href="" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add</a></h1>
+        <h1>Advert list <span class="badge">{{ pagination.getTotalItemCount }}</span> <a href="{{ path("advert_new") }}" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add</a></h1>
 
         <div class="row">
             {# adverts list #}
