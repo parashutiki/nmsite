@@ -3,6 +3,7 @@
 namespace AppBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use AppBundle\Entity\User;
 
 class AdvertRepository extends EntityRepository
 {
@@ -15,6 +16,20 @@ class AdvertRepository extends EntityRepository
     public function findAll()
     {
         return $this->findBy(array(), array('id' => 'DESC'));
+    }
+
+    /**
+     * Ordered by ID.
+     *
+     * @return array
+     */
+    public function findAllOwn(User $user)
+    {
+        return $this->findBy(array(
+                    'user' => $user->getId(),
+                        ), array(
+                    'id' => 'DESC',
+        ));
     }
 
     /**

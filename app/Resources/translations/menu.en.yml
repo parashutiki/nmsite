@@ -4,6 +4,7 @@ menu:
         advert:
             new: Add advert
             list: Advert list
+            own_list: My advert list
         user:
             list: User list
     user:

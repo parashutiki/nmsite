@@ -38,19 +38,28 @@ class MenuBuilder
     {
         $menu = $this->factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav navbar-nav');
-        if ($this->authorizationChecker->isGranted('ROLE_ADVERT_INDEX')) {
-            $menu->addChild('menu.main.advert.list', array('route' => 'advert_index'))
+        if ($this->authorizationChecker->isGranted('ROLE_ADVERT')) {
+            $menuAdvert = $menu->addChild('menu.main.advert.list', array())
                     ->setAttributes(array(
                         'dropdown' => true,
                         'icon' => 'glyphicon glyphicon-list-alt',
                     ))
-                    ->setExtra('translation_domain', 'menu')
-                    ->addChild('menu.main.advert.list', array('route' => 'advert_index'))
-                    ->setExtra('translation_domain', 'menu')
-                    ->getParent()
-                    ->addChild('menu.main.advert.new', array('route' => 'advert_new'))
                     ->setExtra('translation_domain', 'menu');
+
+            if ($this->authorizationChecker->isGranted('ROLE_ADVERT_INDEX')) {
+                $menuAdvert->addChild('menu.main.advert.list', array('route' => 'advert_index'))
+                        ->setExtra('translation_domain', 'menu');
+            }
+            if ($this->authorizationChecker->isGranted('ROLE_ADVERT_INDEX_OWN')) {
+                $menuAdvert->addChild('menu.main.advert.own_list', array('route' => 'advert_index_own'))
+                        ->setExtra('translation_domain', 'menu');
+            }
+            if ($this->authorizationChecker->isGranted('ROLE_ADVERT_NEW')) {
+                $menuAdvert->addChild('menu.main.advert.new', array('route' => 'advert_new'))
+                        ->setExtra('translation_domain', 'menu');
+            }
         }
+
         if ($this->authorizationChecker->isGranted('ROLE_USER_INDEX')) {
             $menu->addChild('menu.main.user.list', array('route' => 'user_index'))
                     ->setAttributes(array(

@@ -52,4 +52,17 @@ class User extends BaseUser
         return $this->adverts;
     }
 
+    /**
+     * Options roles
+     * @return array
+     */
+    public static function choicesRoles(){
+        $options = [
+            'ROLE_SUPER_ADMIN',
+            'ROLE_CLIENT',
+        ];
+
+        return array_combine($options, $options);
+    }
+
 }

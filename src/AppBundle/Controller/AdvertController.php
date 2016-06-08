@@ -39,6 +39,27 @@ class AdvertController extends Controller
         return $this->render('advert/index.html.twig', array('pagination' => $pagination));
     }
 
+        /**
+     * Lists all Advert entities for owner.
+     *
+     * @Route("/own", name="advert_index_own")
+     *
+     * @Method("GET")
+     * @Security("has_role('ROLE_ADVERT_INDEX_OWN')")
+     */
+    public function indexOwnAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $this->getUser();
+        $adverts = $em->getRepository('AppBundle:Advert')->findAllOwn($user);
+
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($adverts, $request->query->getInt('page', 1), 6);
+
+        return $this->render('advert/index.html.twig', array('pagination' => $pagination));
+    }
+
     /**
      * Creates a new Advert entity.
      *

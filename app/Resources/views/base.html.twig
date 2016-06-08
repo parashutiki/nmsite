@@ -29,7 +29,7 @@
 
                     {# Collect the nav links, forms, and other content for toggling #}
                     <div class="collapse navbar-collapse" id="admin-navbar-collapse-1">
-                        {% if not is_granted('ROLE_ADMIN') %}
+                        {% if not is_granted('ROLE_CLIENT') %}
                             <a href="{{ path("advert_new") }}" class="btn btn-success navbar-btn" type="button">
                                 <i class="glyphicon glyphicon-plus"></i>
                                 {{ 'menu.main.advert.new'|trans({}, 'menu') }}
