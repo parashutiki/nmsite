@@ -2,9 +2,10 @@
 
 namespace AppBundle\Form\Handler;
 
-use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Form\Form;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\Advert;
 use AppBundle\Entity\AdvertDocument;
@@ -19,10 +20,10 @@ class AdvertFormHandler
     private $form;
 
     /**
-     * Request.
-     * @var Request
+     * Request stack.
+     * @var RequestStack
      */
-    private $request;
+    private $requestStack;
 
     /**
      * Entity Manager.
@@ -31,11 +32,14 @@ class AdvertFormHandler
     private $em;
 
     /**
-     * Security Context
-     *
-     * @var SecurityContext
+     * @var AuthorizationChecker
      */
-    private $context;
+    private $authorizationChecker;
+
+    /**
+     * @var TokenStorage
+     */
+    private $tokenStorage;
 
     /**
      * Advert.
@@ -45,16 +49,20 @@ class AdvertFormHandler
 
     /**
      * Constructor.
-     *
-     * @param Form $form Form
-     * @param Request $request Request
+     * @param Form $form
+     * @param RequestStack $requestStack
+     * @param EntityManager $em
+     * @param AuthorizationChecker $authorizationChecker
+     * @param TokenStorage $tokenStorage
+     * @param Advert $advert
      */
-    public function __construct(Form $form, Request $request, EntityManager $em, SecurityContext $context, Advert $advert)
+    public function __construct(Form $form, RequestStack $requestStack, EntityManager $em, AuthorizationChecker $authorizationChecker, TokenStorage $tokenStorage, Advert $advert)
     {
         $this->form = $form;
-        $this->request = $request;
+        $this->requestStack = $requestStack;
         $this->em = $em;
-        $this->context = $context;
+        $this->authorizationChecker = $authorizationChecker;
+        $this->tokenStorage = $tokenStorage;
         $this->advert = $advert;
     }
 
@@ -65,11 +73,11 @@ class AdvertFormHandler
      */
     public function process()
     {
-        $this->form->handleRequest($this->request);
+        $this->form->handleRequest($this->requestStack->getCurrentRequest());
 
-        if ($this->request->getMethod() == 'POST') {
+        if ($this->requestStack->getCurrentRequest()->getMethod() == 'POST') {
             return $this->processNew();
-        } elseif ($this->request->getMethod() == 'PUT') {
+        } elseif ($this->requestStack->getCurrentRequest()->getMethod() == 'PUT') {
             return $this->processEdit();
         }
 
@@ -89,10 +97,10 @@ class AdvertFormHandler
 
         $this->advert = $this->form->getData();
 
-        if (!$this->context->isGranted('ROLE_USER')) {
+        if (!$this->authorizationChecker->isGranted('ROLE_USER')) {
             $this->em->persist($this->advert->getUser());
         } else {
-            $this->advert->setUser($this->context->getToken()->getUser());
+            $this->advert->setUser($this->tokenStorage->getToken()->getUser());
         }
 
         $this->em->persist($this->advert);

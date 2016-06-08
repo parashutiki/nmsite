@@ -6,7 +6,9 @@ parameters:
 services:
     app.menu_builder:
         class: AppBundle\Menu\MenuBuilder
-        arguments: ['@security.context', '@knp_menu.factory']
+        arguments:
+            - '@security.authorization_checker'
+            - '@knp_menu.factory'
 
     app.main_menu:
         class: Knp\Menu\MenuItem
@@ -39,28 +41,38 @@ services:
 
     app.form.advert.new:
         class: Symfony\Component\Form\Form
-        factory: ["@form.factory", createNamed]
+        factory: ["@form.factory", create]
         arguments:
-            - advert_form_new
-            - "@app.form.type.advert"
+            - AppBundle\Form\Type\AdvertType
             - null
             - { method: POST }
 
     app.form.advert.new.handler:
         class: AppBundle\Form\Handler\AdvertFormHandler
         scope: request
-        arguments: ["@app.form.advert.new", "@request", "@doctrine.orm.entity_manager", "@security.context", "@app.entity.advert"]
+        arguments:
+            - "@app.form.advert.new"
+            - "@request_stack"
+            - "@doctrine.orm.entity_manager"
+            - "@security.authorization_checker"
+            - "@security.token_storage"
+            - "@app.entity.advert"
 
     app.form.advert.edit:
         class: Symfony\Component\Form\Form
-        factory: ["@form.factory", createNamed]
+        factory: ["@form.factory", create]
         arguments:
-            - advert_form_edit
-            - "@app.form.type.advert"
+            - AppBundle\Form\Type\AdvertType
             - null
             - { method: PUT }
 
     app.form.advert.edit.handler:
         class: AppBundle\Form\Handler\AdvertFormHandler
         scope: request
-        arguments: ["@app.form.advert.edit", "@request", "@doctrine.orm.entity_manager", "@security.context", "@app.entity.advert"]
+        arguments:
+            - "@app.form.advert.edit"
+            - "@request_stack"
+            - "@doctrine.orm.entity_manager"
+            - "@security.authorization_checker"
+            - "@security.token_storage"
+            - "@app.entity.advert"

@@ -38,7 +38,7 @@
     },
     "require": {
         "php": ">=5.3.9",
-        "symfony/symfony": "2.8.*",
+        "symfony/symfony": "3.*",
         "doctrine/orm": "^2.4.8",
         "doctrine/doctrine-bundle": "~1.4",
         "symfony/swiftmailer-bundle": "~2.3",
@@ -50,7 +50,7 @@
         "leafo/lessphp": "*",
         "twitter/bootstrap": "3.3.*",
         "components/jquery": "1.9.*",
-        "friendsofsymfony/user-bundle": "1.*",
+        "friendsofsymfony/user-bundle": "~2.0@dev",
         "knplabs/knp-menu-bundle": "^2.0",
         "knplabs/knp-paginator-bundle": "^2.5",
         "oneup/uploader-bundle": "1.*",

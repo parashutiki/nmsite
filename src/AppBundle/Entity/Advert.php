@@ -232,9 +232,9 @@ class Advert
     public static function choicesRentType()
     {
         $options = [
-            'advert.rentType.option.hourly',
-            'advert.rentType.option.daily',
-            'advert.rentType.option.long-term',
+            'advert.rentType.option.hourly' => 0,
+            'advert.rentType.option.daily' => 1,
+            'advert.rentType.option.long-term' => 2,
         ];
         return $options;
     }
@@ -272,7 +272,7 @@ class Advert
     {
         $options = [];
         for ($i = 1; $i < 6; $i++) {
-            $options[$i] = 'advert.rooms.option.' . $i;
+            $options['advert.rooms.option.' . $i] = $i;
         }
         return $options;
     }
@@ -406,9 +406,9 @@ class Advert
     {
         $options = [];
         for ($i = 1; $i < 17; $i++) {
-            $options[$i] = 'advert.floor.option.' . $i;
+            $options['advert.floor.option.' . $i] = $i;
         }
-        return array(-1 => 'advert.floor.option.under') + $options;
+        return array('advert.floor.option.under' => -1) + $options;
     }
 
     /**
@@ -444,7 +444,7 @@ class Advert
     {
         $options = [];
         for ($i = 1; $i < 17; $i++) {
-            $options[$i] = 'advert.totalFloor.option.' . $i;
+            $options['advert.totalFloor.option.' . $i] = $i;
         }
         return $options;
     }

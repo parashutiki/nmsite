@@ -1,29 +1,44 @@
 <?php
 
-// src/AppBundle/Menu/MenuBuilders.php
-
 namespace AppBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Knp\Menu\ItemInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 class MenuBuilder
 {
 
-    protected $securityContext;
-    protected $factory;
+    /**
+     * @var AuthorizationChecker
+     */
+    private $authorizationChecker;
 
-    public function __construct(SecurityContextInterface $securityContext, FactoryInterface $factory)
+    /**
+     * @var FactoryInterface
+     */
+    private $factory;
+
+    /**
+     * Constructor.
+     * @param AuthorizationChecker $authorizationChecker
+     * @param FactoryInterface $factory
+     */
+    public function __construct(AuthorizationChecker $authorizationChecker, FactoryInterface $factory)
     {
-        $this->securityContext = $securityContext;
+        $this->authorizationChecker = $authorizationChecker;
         $this->factory = $factory;
     }
 
+    /**
+     * Main menu builder.
+     * @return ItemInterface
+     */
     public function createMainMenu()
     {
         $menu = $this->factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav navbar-nav');
-        if ($this->securityContext->isGranted('ROLE_ADVERT_INDEX')) {
+        if ($this->authorizationChecker->isGranted('ROLE_ADVERT_INDEX')) {
             $menu->addChild('menu.main.advert.list', array('route' => 'advert_index'))
                     ->setAttributes(array(
                         'dropdown' => true,
@@ -36,7 +51,7 @@ class MenuBuilder
                     ->addChild('menu.main.advert.new', array('route' => 'advert_new'))
                     ->setExtra('translation_domain', 'menu');
         }
-        if ($this->securityContext->isGranted('ROLE_USER_INDEX')) {
+        if ($this->authorizationChecker->isGranted('ROLE_USER_INDEX')) {
             $menu->addChild('menu.main.user.list', array('route' => 'user_index'))
                     ->setAttributes(array(
                         'dropdown' => true,
@@ -50,11 +65,15 @@ class MenuBuilder
         return $menu;
     }
 
+    /**
+     * User menu builder.
+     * @return ItemInterface
+     */
     public function createUserMenu()
     {
         $menu = $this->factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav navbar-nav navbar-right');
-        if ($this->securityContext->isGranted('ROLE_PROFILE_VIEW')) {
+        if ($this->authorizationChecker->isGranted('ROLE_PROFILE_VIEW')) {
             $menu->addChild('menu.user.profile', array('route' => 'fos_user_profile_show'))
                     ->setExtra('translation_domain', 'menu')
                     ->setAttributes(array(
