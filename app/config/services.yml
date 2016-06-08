@@ -49,14 +49,12 @@ services:
 
     app.form.advert.new.handler:
         class: AppBundle\Form\Handler\AdvertFormHandler
-        scope: request
         arguments:
             - "@app.form.advert.new"
             - "@request_stack"
             - "@doctrine.orm.entity_manager"
             - "@security.authorization_checker"
             - "@security.token_storage"
-            - "@app.entity.advert"
 
     app.form.advert.edit:
         class: Symfony\Component\Form\Form
@@ -68,11 +66,33 @@ services:
 
     app.form.advert.edit.handler:
         class: AppBundle\Form\Handler\AdvertFormHandler
-        scope: request
         arguments:
             - "@app.form.advert.edit"
             - "@request_stack"
             - "@doctrine.orm.entity_manager"
             - "@security.authorization_checker"
             - "@security.token_storage"
-            - "@app.entity.advert"
+
+    app.entity.advertdocument:
+        class: AppBundle\Entity\AdvertDocument
+
+    app.form.type.advertdocument:
+        class: AppBundle\Form\Type\AdvertDocumentType
+        tags:
+            - { name: form.type }
+
+    app.form.advertdocument.delete:
+        class: Symfony\Component\Form\Form
+        factory: ["@form.factory", create]
+        arguments:
+            - AppBundle\Form\Type\AdvertDocumentType
+            - null
+            - { method: DELETE }
+
+    app.form.advertdocument.delete.handler:
+        class: AppBundle\Form\Handler\AdvertDocumentFormHandler
+        arguments:
+            - "@app.form.advertdocument.delete"
+            - "@request_stack"
+            - "@doctrine.orm.entity_manager"
+            - "@security.authorization_checker"

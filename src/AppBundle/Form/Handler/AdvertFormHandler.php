@@ -54,16 +54,14 @@ class AdvertFormHandler
      * @param EntityManager $em
      * @param AuthorizationChecker $authorizationChecker
      * @param TokenStorage $tokenStorage
-     * @param Advert $advert
      */
-    public function __construct(Form $form, RequestStack $requestStack, EntityManager $em, AuthorizationChecker $authorizationChecker, TokenStorage $tokenStorage, Advert $advert)
+    public function __construct(Form $form, RequestStack $requestStack, EntityManager $em, AuthorizationChecker $authorizationChecker, TokenStorage $tokenStorage)
     {
         $this->form = $form;
         $this->requestStack = $requestStack;
         $this->em = $em;
         $this->authorizationChecker = $authorizationChecker;
         $this->tokenStorage = $tokenStorage;
-        $this->advert = $advert;
     }
 
     /**

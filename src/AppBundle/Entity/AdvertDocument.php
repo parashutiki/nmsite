@@ -114,6 +114,15 @@ class AdvertDocument extends BaseDocument
     }
 
     /**
+     * Remove file.
+     * @ORM\PreRemove
+     */
+    public function remove(){
+        $fs = new Filesystem();
+        $fs->remove($this->getFile());
+    }
+
+    /**
      * Implements method {@link Document::getUploadDir}
      *
      * @return string
