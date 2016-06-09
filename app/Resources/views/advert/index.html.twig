@@ -12,7 +12,7 @@
                 <div class="col-sm-6 col-md-4">
                     <div class="thumbnail">
                         <div class="caption">
-                            <h3>#{{ advert.id }} - {{ advert.name }}</h3>
+                            <h3><a href="{{ path('advert_show', { 'id': advert.id }) }}">#{{ advert.id }} - {{ advert.name }}</a></h3>
                             <p>Price: {{ advert.price }} {{ 'form.currency'|trans({},'form') }}</p>
                             <p>Description: {{ advert.description }}</p>
                             <p>Author: {{ advert.user.username }}</p>

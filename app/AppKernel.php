@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Oneup\UploaderBundle\OneupUploaderBundle(),
+            new Gregwar\ImageBundle\GregwarImageBundle(),
             new AppBundle\AppBundle(),
             new DocumentBundle\DocumentBundle(),
         );

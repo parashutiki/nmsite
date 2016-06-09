@@ -3,6 +3,7 @@
 /web/js/
 /web/fonts/
 /web/uploads/
+/web/cache/
 /node_modules/
 /app/bootstrap.php.cache
 /app/cache/*
@@ -15,3 +16,4 @@
 /vendor/
 /bin/
 /composer.phar
+/composer.lock

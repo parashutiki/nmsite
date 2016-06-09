@@ -190,3 +190,6 @@ oneup_uploader:
         unmanaged:
             frontend: fineuploader
     twig: true
+
+gregwar_image:
+    cache_dir: cache

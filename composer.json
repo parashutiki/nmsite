@@ -55,7 +55,8 @@
         "knplabs/knp-paginator-bundle": "^2.5",
         "oneup/uploader-bundle": "1.*",
         "FineUploader/fine-uploader": "5.9.0",
-        "Logicify/jquery-locationpicker-plugin": "dev-master"
+        "Logicify/jquery-locationpicker-plugin": "dev-master",
+        "gregwar/image-bundle": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",
