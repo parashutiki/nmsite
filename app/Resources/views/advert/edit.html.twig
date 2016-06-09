@@ -1,5 +1,14 @@
 {% extends 'advert/new.html.twig' %}
 
+{% block breadcrumbs %}
+    {% set breadcrumbsArray = [
+        {'uri': path('homepage'), 'label': 'menu.main.home'|trans({},'menu')},
+        {'uri': path('advert_show', { 'id': advert.id }), 'label': advert.name},
+        {'label': block('title')}
+    ] %}
+    {{ include('breadcrumbs.html.twig') }}
+{% endblock %}
+
 {% block title %}
     Advert edit
 {% endblock %}
@@ -49,9 +58,13 @@
             <a href="{{ path('advert_index') }}">Back to the list</a>
         </li>
         <li>
-            {{ form_start(delete_form) }}
+            {{ form_start(delete_form, { 'action': path('advert_delete', { 'id': advert.id }) }) }}
             <input type="submit" class="btn btn-danger" value="Delete">
             {{ form_end(delete_form) }}
         </li>
     </ul>
 {% endblock %}
+
+{% block form_action %}{% spaceless %}
+        {{ path('advert_edit', { 'id': advert.id }) }}
+{% endspaceless %}{% endblock %}

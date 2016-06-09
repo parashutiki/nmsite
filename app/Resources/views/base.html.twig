@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% spaceless %}{% block title %}Welcome!{% endblock %}{% endspaceless %}</title>
         {% block stylesheets %}
             {% stylesheets '@bootstrap_css'
                 '@main_css'
@@ -35,8 +35,8 @@
                                 {{ 'menu.main.advert.new'|trans({}, 'menu') }}
                             </a>
                         {% endif %}
-                        {{ knp_menu_render('main', {'currentClass': 'active'}) }}
-                        {{ knp_menu_render('user', {'currentClass': 'active'}) }}
+                        {{ knp_menu_render('main', {'currentClass': 'active', 'template': 'AppBundle::knp_menu.html.twig'}) }}
+                        {{ knp_menu_render('user', {'currentClass': 'active', 'template': 'AppBundle::knp_menu.html.twig'}) }}
                     </div>
                 </div>
             </div>

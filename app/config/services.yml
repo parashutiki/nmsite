@@ -73,6 +73,14 @@ services:
             - "@security.authorization_checker"
             - "@security.token_storage"
 
+    app.form.advert.delete:
+        class: Symfony\Component\Form\Form
+        factory: ["@form.factory", create]
+        arguments:
+            - AppBundle\Form\Type\AdvertType
+            - null
+            - { method: DELETE }
+
     app.entity.advertdocument:
         class: AppBundle\Entity\AdvertDocument
 

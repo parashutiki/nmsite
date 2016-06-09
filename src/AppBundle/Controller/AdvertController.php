@@ -39,7 +39,7 @@ class AdvertController extends Controller
         return $this->render('advert/index.html.twig', array('pagination' => $pagination));
     }
 
-        /**
+    /**
      * Lists all Advert entities for owner.
      *
      * @Route("/own", name="advert_index_own")
@@ -94,7 +94,7 @@ class AdvertController extends Controller
      */
     public function showAction(Advert $advert)
     {
-        $deleteForm = $this->createDeleteForm($advert);
+        $deleteForm = $this->container->get('app.form.advert.delete');
 
         return $this->render('advert/show.html.twig', array(
                     'advert' => $advert,
@@ -107,7 +107,7 @@ class AdvertController extends Controller
      *
      * @Route("/{id}/edit", name="advert_edit", requirements={"id": "\d+"})
      * @Method({"GET", "PUT"})
-     * @Security("(has_role('ROLE_ADVERT_EDIT') && advert.isAuthor(user)) || has_role('ROLE_ADVERT_ADMIN')")
+     * @Security("(has_role('ROLE_ADVERT_EDIT_OWN') && advert.isAuthor(user)) || has_role('ROLE_ADVERT_EDIT')")
      */
     public function editAction(Advert $advert)
     {
@@ -117,7 +117,7 @@ class AdvertController extends Controller
         /* @var $formHandler AdvertFormHandler */
         $formHandler = $this->container->get('app.form.advert.edit.handler');
 
-        $deleteForm = $this->createDeleteForm($advert);
+        $deleteForm = $this->container->get('app.form.advert.delete');
 
         if ($formHandler->process()) {
             $advert = $form->getData();
@@ -127,6 +127,7 @@ class AdvertController extends Controller
         }
 
         return $this->render('advert/edit.html.twig', array(
+                    'advert' => $advert,
                     'form' => $form->createView(),
                     'delete_form' => $deleteForm->createView(),
         ));
@@ -137,11 +138,13 @@ class AdvertController extends Controller
      *
      * @Route("/{id}", name="advert_delete", requirements={"id": "\d+"})
      * @Method("DELETE")
-     * @Security("has_role('ROLE_ADVERT_DELETE')")
+     * @Security("(has_role('ROLE_ADVERT_DELETE_OWN') && advert.isAuthor(user)) || has_role('ROLE_ADVERT_DELETE')")
      */
     public function deleteAction(Request $request, Advert $advert)
     {
-        $form = $this->createDeleteForm($advert);
+        /* @var $form Form */
+        $form = $this->container->get('app.form.advert.delete');
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -151,21 +154,6 @@ class AdvertController extends Controller
         }
 
         return $this->redirectToRoute('advert_index');
-    }
-
-    /**
-     * Creates a form to delete a Advert entity.
-     *
-     * @param Advert $advert The Advert entity
-     *
-     * @return Form Form
-     */
-    private function createDeleteForm(Advert $advert)
-    {
-        return $this->createFormBuilder()
-                        ->setAction($this->generateUrl('advert_delete', array('id' => $advert->getId())))
-                        ->setMethod('DELETE')
-                        ->getForm();
     }
 
 }

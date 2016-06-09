@@ -47,6 +47,11 @@ class AdvertType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if ('DELETE' == $options['method']) {
+            $builder
+                    ->setMethod('DELETE');
+            return;
+        }
         $builder
                 ->add('name', TextType::class, array(
                     'label' => 'advert.name.label',
