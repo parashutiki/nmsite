@@ -7,7 +7,7 @@
 $(document).ready(function () {
     var uploader = new qq.FineUploader({
         template: 'qq-template-s3',
-        element: document.getElementById('advert_form_new_unmanagedDocuments_uploader'),
+        element: document.getElementById('advert_unmanagedDocuments_uploader'),
         deleteFile: {
             enabled: true,
             endpoint: TWIG.FineUploader.deleteFileEndpoint

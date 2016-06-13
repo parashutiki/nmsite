@@ -18,6 +18,7 @@ use DocumentBundle\Form\Type\UnmanagedDocumentType;
 use FOS\UserBundle\Form\Type\RegistrationFormType;
 use AppBundle\Entity\Advert;
 use AppBundle\Form\Type\AdvertDocumentType;
+use DocumentBundle\Form\Type\DocumentType;
 
 /**
  * Advert type.
@@ -122,22 +123,15 @@ class AdvertType extends AbstractType
                     'translation_domain' => 'form',
 //                    'data' => '1',
                 ))
-                ->add('unmanagedDocuments', CollectionType::class, array(
+                ->add('unmanagedDocuments', DocumentType::class, array(
                     'label' => 'advert.unmanagedDocuments.label',
                     'translation_domain' => 'form',
                     'entry_type' => UnmanagedDocumentType::class,
-                    'prototype' => false,
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                    'by_reference' => false,
         ));
         if ('PUT' == $options['method']) {
-            $builder->add('advertDocuments', CollectionType::class, array(
+            $builder->add('advertDocuments', DocumentType::class, array(
                 'label' => false,
                 'entry_type' => AdvertDocumentType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
             ));
         }
         if (false === $this->authorizationChecker->isGranted('ROLE_USER')) {

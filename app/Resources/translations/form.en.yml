@@ -1,4 +1,6 @@
 form:
+    update: Update
+    delete: Delete
     select: "- Select -"
     currency: UAH
 advert:

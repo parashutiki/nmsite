@@ -110,3 +110,8 @@ services:
         arguments: ["@security.authorization_checker"]
         tags:
             - { name: form.type, alias: app_user_profile }
+
+    app.form.type.document:
+        class: DocumentBundle\Form\Type\DocumentType
+        tags:
+            - { name: form.type }

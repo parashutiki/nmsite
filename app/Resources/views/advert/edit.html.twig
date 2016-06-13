@@ -45,24 +45,17 @@
 {% endblock %}
 
 {% block form_actions %}
-    <div class="form-group">
-        <div class="col-lg-offset-2 col-lg-10">
-            <input class="btn btn-success" type="submit" value="Update" />
-        </div>
+    <div class="pull-left">
+        <input class="btn btn-success" type="submit" value="{{ 'form.update'|trans({},'form') }}" />
     </div>
 {% endblock %}
 
 {% block other_actions %}
-    <ul>
-        <li>
-            <a href="{{ path('advert_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form, { 'action': path('advert_delete', { 'id': advert.id }) }) }}
-            <input type="submit" class="btn btn-danger" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+    {{ form_start(delete_form, { 'action': path('advert_delete', { 'id': advert.id }) }) }}
+    <div class="pull-right">
+        <input type="submit" class="btn btn-danger" value="{{ 'form.delete'|trans({},'form') }}">
+    </div>
+    {{ form_end(delete_form) }}
 {% endblock %}
 
 {% block form_action %}{% spaceless %}
