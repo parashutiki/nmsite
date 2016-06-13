@@ -29,6 +29,16 @@ class User extends BaseUser
     private $adverts;
 
     /**
+     * @ORM\Column(type="string", length=9, nullable=false)
+     */
+    private $phone;
+
+    /**
+     * @ORM\Column(type="string", length=127, nullable=false)
+     */
+    private $name;
+
+    /**
      * Set adverts
      *
      * @param ArrayCollection $adverts Adverts
@@ -53,10 +63,59 @@ class User extends BaseUser
     }
 
     /**
+     * Set phone
+     *
+     * @param string $phone Phone
+     *
+     * @return User
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = (string) $phone;
+
+        return $this;
+    }
+
+    /**
+     * Get phone
+     *
+     * @return string
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name Name
+     *
+     * @return User
+     */
+    public function setName($name)
+    {
+        $this->name = (string) $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
      * Options roles
      * @return array
      */
-    public static function choicesRoles(){
+    public static function choicesRoles()
+    {
         $options = [
             'ROLE_SUPER_ADMIN',
             'ROLE_CLIENT',

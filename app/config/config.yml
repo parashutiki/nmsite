@@ -135,16 +135,6 @@ assetic:
             inputs:
                 - %kernel.root_dir%/../vendor/FineUploader/fine-uploader/fine-uploader.js
             output: js/fine-uploader.js
-#        fine_uploader_css:
-#            inputs:
-#                - %kernel.root_dir%/../vendor/FineUploader/fine-uploader/fine-uploader.min.css
-#            filters:
-#                - cssrewrite
-#            output: css/fine-uploader.min.css
-#        fine_uploader_loading_gif:
-#            inputs:
-#                - %kernel.root_dir%/../vendor/FineUploader/fine-uploader/loading.gif
-#            output: loading.gif
         location_picker_js:
             inputs:
                 - %kernel.root_dir%/../vendor/Logicify/jquery-locationpicker-plugin/src/locationpicker.jquery.js
@@ -162,9 +152,12 @@ assetic:
             output: css/main.css
 # FOS User bundle
 fos_user:
-    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    db_driver: orm
     firewall_name: main
     user_class: AppBundle\Entity\User
+    profile:
+        form:
+            type: AppBundle\Form\Type\ProfileType
 # KNP menu builder
 knp_menu:
     # use "twig: false" to disable the Twig extension and the TwigRenderer
